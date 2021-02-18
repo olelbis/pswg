@@ -8,11 +8,14 @@ import (
 //NN numeric string
 const NN string = "1234567890"
 
-//LS alphanumberic string
+//LS alphanumeric string
 const LS string = "abcdefghijklmnopqrstuvwxyz"
 
 //SS special character string
 const SS string = "!&%$£=?ù^+*][{}-_.:,;()><"
+
+//LM Minimum Lenght
+const LM int = 12
 
 //Melee : Get a string in input e do some shuffle
 func Melee(pwdin string) string {
