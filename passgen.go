@@ -12,25 +12,21 @@ import (
 	g "passgen/genutil"
 )
 
-const nn, ls, ss string = "1234567890", "abcdefghijklmnopqrstuvwxyz", "!&%$£=?ù^+*][{}-_.:,;()><"
-
-const lm int = 12
-
 func main() {
 	//Inizializzo il generatore di numeri pseudo randomici
 	rand.Seed(time.Now().Unix())
 
 	// TO DO gestione degli argomeni da command line
 	l, _ := strconv.Atoi(os.Args[1])
-	if l > lm {
+	if l > g.LM {
 		fmt.Printf("The vaule of l is: %d\n", l)
 	} else {
-		l = lm
+		l = g.LM
 		fmt.Printf("The vaule of l set to default size: %d\n", l)
 	}
 
 	//Genero la password raw
-	rawpassw := pick(6, nn) + pick(4, ls) + pick(2, strings.ToUpper(ls)) + pick(1, ss)
+	rawpassw := pick(6, g.NN) + pick(4, g.LS) + pick(2, strings.ToUpper(g.LS)) + pick(1, g.SS)
 	//Stampo la password così come è
 	//fmt.Println(rawpassw)
 
