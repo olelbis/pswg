@@ -8,6 +8,8 @@ import (
 	"strings"
 	"time"
 	"unicode/utf8"
+
+	g "passgen/genutil"
 )
 
 const nn, ls, ss string = "1234567890", "abcdefghijklmnopqrstuvwxyz", "!&%$£=?ù^+*][{}-_.:,;()><"
@@ -33,7 +35,7 @@ func main() {
 	//fmt.Println(rawpassw)
 
 	//Mischio i caratteri e li restituisco a terminale
-	fmt.Println(melee(rawpassw))
+	fmt.Println(g.Melee(rawpassw))
 	fmt.Printf("%08b\n", 5)
 }
 
@@ -47,14 +49,4 @@ func pick(L int, K string) (ret string) {
 		ret += string([]rune(K)[rand.Intn(utf8.RuneCountInString(K))])
 	}
 	return ret
-}
-
-func melee(pwdin string) string {
-	// Trasformo la stringa in array unicode(rune)
-	nRune := []rune(pwdin)
-	//Uso la funzione shuffle per effetture lo swap pseudo randomico dei caratteri
-	rand.Shuffle(len(nRune), func(i, j int) {
-		nRune[i], nRune[j] = nRune[j], nRune[i]
-	})
-	return string(nRune)
 }
