@@ -2,18 +2,16 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"os"
 	"strconv"
 	"strings"
-	"time"
 
 	g "passgen/genutil"
 )
 
 func main() {
 	//Inizializzo il generatore di numeri pseudo randomici
-	rand.Seed(time.Now().Unix())
+	//rand.Seed(time.Now().Unix())
 
 	// TO DO gestione degli argomeni da command line
 	l, _ := strconv.Atoi(os.Args[1])
@@ -31,5 +29,5 @@ func main() {
 
 	//Mischio i caratteri e li restituisco a terminale
 	fmt.Println(g.Melee(rawpassw))
-	fmt.Printf("%08b\n", 5)
+	//fmt.Printf("%08b\n", 5)
 }
