@@ -3,6 +3,7 @@ package genutil
 import (
 	"math/rand"
 	"time"
+	"unicode/utf8"
 )
 
 const (
@@ -13,7 +14,7 @@ const (
 	LS string = "abcdefghijklmnopqrstuvwxyz"
 
 	//SS special character string
-	SS string = "!&%$£=?ù^+*][{}-_.:,;()><"
+	SS string = "!&%$£=?^+*][{}-_.:,;()><"
 
 	//LM Minimum Lenght
 	LM int = 12
@@ -29,4 +30,16 @@ func Melee(pwdin string) string {
 		nRune[i], nRune[j] = nRune[j], nRune[i]
 	})
 	return string(nRune)
+}
+
+// Pick : ritorna una stringa random di lunghezza L estraendola da K
+func Pick(L int, K string) (ret string) {
+	//var c int
+	for i := 1; i <= L; i++ {
+
+		//Use utf8.RuneCountInString per prevvenire index out of range (panic)
+
+		ret += string([]rune(K)[rand.Intn(utf8.RuneCountInString(K))])
+	}
+	return ret
 }
