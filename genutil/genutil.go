@@ -5,17 +5,19 @@ import (
 	"time"
 )
 
-//NN numeric string
-const NN string = "1234567890"
+const (
+	//NN numeric string
+	NN string = "1234567890"
 
-//LS alphanumeric string
-const LS string = "abcdefghijklmnopqrstuvwxyz"
+	//LS alphanumeric string
+	LS string = "abcdefghijklmnopqrstuvwxyz"
 
-//SS special character string
-const SS string = "!&%$£=?ù^+*][{}-_.:,;()><"
+	//SS special character string
+	SS string = "!&%$£=?ù^+*][{}-_.:,;()><"
 
-//LM Minimum Lenght
-const LM int = 12
+	//LM Minimum Lenght
+	LM int = 12
+)
 
 //Melee : Get a string in input e do some shuffle
 func Melee(pwdin string) string {
