@@ -32,13 +32,15 @@ func Melee(pwdin string) string {
 	return string(nRune)
 }
 
-// Pick : ritorna una stringa random di lunghezza L estraendola da K
+// Pick : return random string of lenght L extract it form  K
 func Pick(L int, K string) (ret string) {
-	//var c int
+	rand.Seed(time.Now().Unix())
+
+	// yet another "i" loop
 	for i := 1; i <= L; i++ {
 
-		//Use utf8.RuneCountInString per prevvenire index out of range (panic)
-
+		//Use utf8.RuneCountInString to prevent index out of range (panic)
+		//in case of multibyte character
 		ret += string([]rune(K)[rand.Intn(utf8.RuneCountInString(K))])
 	}
 	return ret
