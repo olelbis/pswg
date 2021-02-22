@@ -9,6 +9,8 @@ import (
 	g "passgen/genutil"
 )
 
+const version string = "0.1"
+
 func main() {
 	//Inizializzo il generatore di numeri pseudo randomici
 	//rand.Seed(time.Now().Unix())
