@@ -9,3 +9,4 @@ It's an personal excercise to create a siple stupid random password generator wh
                 -   Some lessons learned
   
 -   22/02/2021  Some minor fix to the code :P
+-   23/02/2021  Rename prj and a little cleanup
