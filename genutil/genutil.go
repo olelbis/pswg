@@ -9,13 +9,10 @@ import (
 const (
 	//NN numeric string
 	NN string = "1234567890"
-
 	//LS alphanumeric string
 	LS string = "abcdefghijklmnopqrstuvwxyz"
-
 	//SS special character string
 	SS string = "!&%$£=?^+*][{}-_.:,;()><"
-
 	//LM Minimum Lenght
 	LM int = 12
 )

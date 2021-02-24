@@ -9,13 +9,14 @@ import (
 	g "passgen/genutil"
 )
 
-const version string = "0.1"
+const (
+	execname string = "pswg"
+	version  string = "0.1"
+)
 
 func main() {
-	//Inizializzo il generatore di numeri pseudo randomici
-	//rand.Seed(time.Now().Unix())
 
-	// TO DO gestione degli argomeni da command line
+	// TO DO argument managment inside or outside main package
 	l, _ := strconv.Atoi(os.Args[1])
 	if l > g.LM {
 		fmt.Printf("The vaule of l is: %d\n", l)
@@ -24,12 +25,12 @@ func main() {
 		fmt.Printf("The vaule of l set to default size: %d\n", l)
 	}
 
-	//Genero la password raw
+	//Generate raw password probably i need to refactor Pick function?
 	rawpassw := g.Pick(6, g.NN) + g.Pick(4, g.LS) + g.Pick(2, strings.ToUpper(g.LS)) + g.Pick(1, g.SS)
-	//Stampo la password così come è
+	//For debug purpose in this alpha state
 	//fmt.Println(rawpassw)
 
-	//Mischio i caratteri e li restituisco a terminale
+	//Melee... Nice name no?
 	fmt.Println(g.Melee(rawpassw))
 	//fmt.Printf("%08b\n", 5)
 }

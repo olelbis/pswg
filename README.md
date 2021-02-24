@@ -1,4 +1,4 @@
-# passgen 
+# pswg 
 
 It's an personal excercise to create a siple stupid random password generator while learn go language
 
