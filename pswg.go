@@ -16,7 +16,7 @@ const (
 
 func main() {
 
-	// TO DO argument managment inside or outside main package
+	// TO DO argument managment inside or outside main package!
 	l, _ := strconv.Atoi(os.Args[1])
 	if l > g.LM {
 		fmt.Printf("The vaule of l is: %d\n", l)
