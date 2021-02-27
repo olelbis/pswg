@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	//NN numeric string
-	NN string = "1234567890"
+	//NS numeric string
+	NS string = "1234567890"
 	//LS alphanumeric string
 	LS string = "abcdefghijklmnopqrstuvwxyz"
 	//SS special character string
@@ -21,12 +21,12 @@ const (
 func Melee(pwdin string) string {
 	rand.Seed(time.Now().Unix())
 	// Transform string to rune
-	nRune := []rune(pwdin)
+	r := []rune(pwdin)
 	//Use rand.Shuffle function to make a pseudo randomic char swap
-	rand.Shuffle(len(nRune), func(i, j int) {
-		nRune[i], nRune[j] = nRune[j], nRune[i]
+	rand.Shuffle(len(r), func(i, j int) {
+		r[i], r[j] = r[j], r[i]
 	})
-	return string(nRune)
+	return string(r)
 }
 
 // Pick : return random string of lenght L extract it form  K

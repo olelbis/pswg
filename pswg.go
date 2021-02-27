@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	execname string = "pswg"
-	version  string = "0.1"
+	exec string = "pswg"
+	ver  string = "0.1"
 )
 
 func main() {
@@ -26,11 +26,11 @@ func main() {
 	}
 
 	//Generate raw password probably i need to refactor Pick function?
-	rawpassw := g.Pick(6, g.NN) + g.Pick(4, g.LS) + g.Pick(2, strings.ToUpper(g.LS)) + g.Pick(1, g.SS)
+	raw := g.Pick(6, g.NS) + g.Pick(4, g.LS) + g.Pick(2, strings.ToUpper(g.LS)) + g.Pick(1, g.SS)
 	//For debug purpose in this alpha state
 	//fmt.Println(rawpassw)
 
 	//Melee... Nice name no?
-	fmt.Println(g.Melee(rawpassw))
+	fmt.Println(g.Melee(raw))
 	//fmt.Printf("%08b\n", 5)
 }
