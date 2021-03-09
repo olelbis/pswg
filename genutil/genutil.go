@@ -15,6 +15,14 @@ const (
 	SS string = "!&%$£=?^+*][{}-_.:,;()><"
 	//LM Minimum Lenght
 	LM int = 12
+	//UC Uppercase n of char
+	UC int = 1
+	//AC Aplhanumeric n of char
+	AC int = 9
+	//SC Special n of char
+	SC int = 1
+	//NC Numeric n of char
+	NC int = 1
 )
 
 //Melee : Get a string in input e do some shuffle
