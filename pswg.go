@@ -11,7 +11,7 @@ import (
 
 const (
 	exec string = "pswg"
-	ver  string = "0.2"
+	ver  string = "0.3a"
 )
 
 func main() {
