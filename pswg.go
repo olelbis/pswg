@@ -25,21 +25,23 @@ func main() {
 
 		nSC int = g.SC
 		nNC int = g.NC
+		err error
 	)
 
-	fmt.Println(len(os.Args))
 	if len(os.Args) < 2 {
 		g.DefPick()
 		return
 	} else if len(os.Args) <= 9 {
 
 		for i := 1; i < len(os.Args); i++ {
-			//fmt.Println("ARG: ", os.Args[i])
 			switch {
 			case os.Args[i] == "-l":
 				if len(os.Args)-1 > i {
 					i++
-					nLM, _ = strconv.Atoi(os.Args[i])
+					nLM, err = strconv.Atoi(os.Args[i])
+					if err != nil {
+						fmt.Println("ERRORE:", err)
+					}
 				}
 
 			case os.Args[i] == "-u":
