@@ -1,7 +1,9 @@
 package genutil
 
 import (
+	"fmt"
 	"math/rand"
+	"strings"
 	"time"
 	"unicode/utf8"
 )
@@ -23,6 +25,14 @@ const (
 	SC int = 1
 	//NC Numeric n of char
 	NC int = 1
+	//DEFMSG default message
+	DEFMSG string = `No option specified or wrong number of arguments, use the defaults for generate random password:
+
+1 Numeric
+1 Special Char
+1 Alphanumenrical Uppercase
+9 Alphanumentical Lovercase
+`
 )
 
 //Melee : Get a string in input e do some shuffle
@@ -49,4 +59,15 @@ func Pick(L int, K string) (ret string) {
 		ret += string([]rune(K)[rand.Intn(utf8.RuneCountInString(K))])
 	}
 	return ret
+}
+
+// DefPick : return random password based on predefined rule
+func DefPick() {
+	var raw string
+	// Print defaults message
+	fmt.Println(DEFMSG)
+	//create raw password
+	raw = Pick(NC, NS) + Pick(AC, LS) + Pick(UC, strings.ToUpper(LS)) + Pick(SC, SS)
+	//print generated password
+	fmt.Println("OUTPUT: ", Melee(raw))
 }

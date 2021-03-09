@@ -10,15 +10,8 @@ import (
 )
 
 const (
-	exec     string = "pswg"
-	ver      string = "0.2"
-	defaults string = `No option specified or wrong number of arguments, use the defaults for generate random password:
-
-1 Numeric
-1 Special Char
-1 Alphanumenrical Uppercase
-9 Alphanumentical Lovercase
-`
+	exec string = "pswg"
+	ver  string = "0.2"
 )
 
 func main() {
@@ -36,40 +29,49 @@ func main() {
 
 	fmt.Println(len(os.Args))
 	if len(os.Args) < 2 {
-		// Print defaults message
-		fmt.Println(defaults)
-		//create raw password
-		raw = g.Pick(nNC, g.NS) + g.Pick(nLM, g.LS) + g.Pick(nUC, strings.ToUpper(g.LS)) + g.Pick(nSC, g.SS)
-		//print generated password
-		fmt.Println("OUTPUT: ", g.Melee(raw))
-		//exit from executable
+		g.DefPick()
 		return
 	} else if len(os.Args) <= 9 {
 
 		for i := 1; i < len(os.Args); i++ {
-			fmt.Println("ARG: ", os.Args[i])
+			//fmt.Println("ARG: ", os.Args[i])
 			switch {
 			case os.Args[i] == "-l":
-				i++
-				nLM, _ = strconv.Atoi(os.Args[i])
-				fmt.Println("ELLE:", nLM)
+				if len(os.Args)-1 > i {
+					i++
+					nLM, _ = strconv.Atoi(os.Args[i])
+				}
+
 			case os.Args[i] == "-u":
-				i++
-				nUC, _ = strconv.Atoi(os.Args[i])
-				fmt.Println("UUUU", nUC)
+				if len(os.Args)-1 > i {
+					i++
+					nUC, _ = strconv.Atoi(os.Args[i])
+				}
+
 			case os.Args[i] == "-s":
-				i++
-				nSC, _ = strconv.Atoi(os.Args[i])
-				fmt.Println("SSSS:", nSC)
+				if len(os.Args)-1 > i {
+					i++
+					nSC, _ = strconv.Atoi(os.Args[i])
+				}
+
 			case os.Args[i] == "-n":
-				i++
-				nNC, _ = strconv.Atoi(os.Args[i])
-				fmt.Println("NNNN:", nNC)
+				if len(os.Args)-1 > i {
+					i++
+					nNC, _ = strconv.Atoi(os.Args[i])
+				}
+			default:
+				fmt.Println(g.DEFMSG)
 			}
 		}
+
+		if nLM < (nUC + nSC + nNC) {
+			g.DefPick()
+			return
+		}
 		nLM = nLM - nUC - nSC - nNC
+		//fmt.Println("VAL: ", nLM)
 		raw = g.Pick(nNC, g.NS) + g.Pick(nLM, g.LS) + g.Pick(nUC, strings.ToUpper(g.LS)) + g.Pick(nSC, g.SS)
-		fmt.Println("LENGHT: ", len(raw))
+		//fmt.Println("LENGHT: ", len([]rune(raw)))
 		fmt.Println("OUTPUT: ", g.Melee(raw))
 	}
 	/*
