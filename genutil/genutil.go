@@ -1,7 +1,9 @@
 package genutil
 
 import (
+	cr "crypto/rand"
 	"fmt"
+	"math/big"
 	"math/rand"
 	"strings"
 	"time"
@@ -57,6 +59,18 @@ func Pick(L int, K string) (ret string) {
 		//Use utf8.RuneCountInString to prevent index out of range (panic)
 		//in case of multibyte character
 		ret += string([]rune(K)[rand.Intn(utf8.RuneCountInString(K))])
+	}
+	return ret
+}
+
+func PickCrypto(L int, K string) (ret string) {
+
+	// yet another "i" loop
+	for i := 1; i <= L; i++ {
+		result, _ := cr.Int(cr.Reader, big.NewInt(int64(utf8.RuneCountInString(K))))
+		//Use utf8.RuneCountInString to prevent index out of range (panic)
+		//in case of multibyte character
+		ret += string([]rune(K)[int(result.Int64())])
 	}
 	return ret
 }

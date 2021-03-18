@@ -3,10 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	g "passgen/genutil"
 	"strconv"
 	"strings"
-
-	g "passgen/genutil"
 )
 
 const (
@@ -72,10 +71,12 @@ func main() {
 		}
 		nLM = nLM - nUC - nSC - nNC
 		//fmt.Println("VAL: ", nLM)
-		raw = g.Pick(nNC, g.NS) + g.Pick(nLM, g.LS) + g.Pick(nUC, strings.ToUpper(g.LS)) + g.Pick(nSC, g.SS)
+		//raw = g.Pick(nNC, g.NS) + g.Pick(nLM, g.LS) + g.Pick(nUC, strings.ToUpper(g.LS)) + g.Pick(nSC, g.SS)
+		raw = g.PickCrypto(nNC, g.NS) + g.PickCrypto(nLM, g.LS) + g.PickCrypto(nUC, strings.ToUpper(g.LS)) + g.PickCrypto(nSC, g.SS)
 		//fmt.Println("LENGHT: ", len([]rune(raw)))
 		fmt.Println("OUTPUT: ", g.Melee(raw))
 	}
+	//fmt.Println("TEST:", g.PickCrypto(nLM, g.LS))
 	/*
 		l, _ := strconv.Atoi(os.Args[1])
 
