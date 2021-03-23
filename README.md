@@ -11,10 +11,12 @@ It's an personal excercise to create a simple stupid random password generator w
 -   22/02/2021  Some minor fix to the code :P
 -   23/02/2021  Rename prj and a little cleanup
 -   04/03/2021  Define the default execution and added a lil message (csn be better i know)
--   09/03/2020  Some mods:
+-   09/03/2021  Some mods:
   
                 -   Create function DefPick to generate random password based on predefined rule
                 -   Review constants
                 -   Parameter managment (need further work)
 
--   18/03/2020  I'm a little busy in the latest weeks. As suggeted by Sfrisio i've switch from "math/rand" to "crypto/rand" but need to test it a little bit more. 
+-   18/03/2020  I'm a little busy in the latest weeks. As suggeted by Sfrisio i've switch from "math/rand" to "crypto/rand" but need to test it a little bit more.
+-   23/03/2021  Tested with 1.16.2
+-   31/03/2021  Added more err handling, but i need to do more test

@@ -49,7 +49,7 @@ func Melee(pwdin string) string {
 	return string(r)
 }
 
-// Pick : return random string of lenght L extract it form  K
+// Pick : return random string of lenght L extract it form  K (math/random)
 func Pick(L int, K string) (ret string) {
 	rand.Seed(time.Now().Unix())
 
@@ -63,6 +63,7 @@ func Pick(L int, K string) (ret string) {
 	return ret
 }
 
+// PickCrypto : return random string of lenght L extract it form  K (crypto/random)
 func PickCrypto(L int, K string) (ret string) {
 
 	// yet another "i" loop

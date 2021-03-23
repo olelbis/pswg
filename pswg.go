@@ -8,10 +8,10 @@ import (
 	"strings"
 )
 
-const (
+/* const (
 	exec string = "pswg"
 	ver  string = "0.3a"
-)
+) */
 
 func main() {
 
@@ -25,6 +25,7 @@ func main() {
 		nSC int = g.SC
 		nNC int = g.NC
 		err error
+		x   int = 1 //Help me to remove a magic number and prevent problem with os.Args array
 	)
 
 	if len(os.Args) < 2 {
@@ -35,30 +36,39 @@ func main() {
 		for i := 1; i < len(os.Args); i++ {
 			switch {
 			case os.Args[i] == "-l":
-				if len(os.Args)-1 > i {
+				if len(os.Args)-x > i {
 					i++
 					nLM, err = strconv.Atoi(os.Args[i])
 					if err != nil {
-						fmt.Println("ERRORE:", err)
+						fmt.Println("ERROR:", err)
 					}
 				}
 
 			case os.Args[i] == "-u":
-				if len(os.Args)-1 > i {
+				if len(os.Args)-x > i {
 					i++
 					nUC, _ = strconv.Atoi(os.Args[i])
+					if err != nil {
+						fmt.Println("ERROR:", err)
+					}
 				}
 
 			case os.Args[i] == "-s":
-				if len(os.Args)-1 > i {
+				if len(os.Args)-x > i {
 					i++
 					nSC, _ = strconv.Atoi(os.Args[i])
+					if err != nil {
+						fmt.Println("ERROR:", err)
+					}
 				}
 
 			case os.Args[i] == "-n":
-				if len(os.Args)-1 > i {
+				if len(os.Args)-x > i {
 					i++
 					nNC, _ = strconv.Atoi(os.Args[i])
+					if err != nil {
+						fmt.Println("ERROR:", err)
+					}
 				}
 			default:
 				fmt.Println(g.DEFMSG)
