@@ -17,6 +17,7 @@ It's an personal excercise to create a simple stupid random password generator w
                 -   Review constants
                 -   Parameter managment (need further work)
 
--   18/03/2020  I'm a little busy in the latest weeks. As suggeted by Sfrisio i've switch from "math/rand" to "crypto/rand" but need to test it a little bit more.
+-   18/03/2020  I'm a little busy in the latest weeks. As suggeted by Sfrisio i've switch from "math/rand" to "crypto/rand" but need to test it a little bit more. (crypto is implemented only in Pick* function)
 -   23/03/2021  Tested with 1.16.2
 -   31/03/2021  Added more err handling, but i need to do more test
+-   03/04/2021  1.16.3 Check! Added a check to shuffle until fist character is a number (some vendor don't want this kind of password... But i don't know if i want to maintain this kind of request) Last but not least deprecate Pick Func
