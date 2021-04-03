@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"strings"
 	"time"
+	"unicode"
 	"unicode/utf8"
 )
 
@@ -42,15 +43,24 @@ func Melee(pwdin string) string {
 	rand.Seed(time.Now().Unix())
 	// Transform string to rune
 	r := []rune(pwdin)
+
 	//Use rand.Shuffle function to make a pseudo randomic char swap
 	rand.Shuffle(len(r), func(i, j int) {
 		r[i], r[j] = r[j], r[i]
 	})
+	// Loop until first char isn't a a number
+	for unicode.IsNumber(r[0]) {
+		//Use rand.Shuffle function to make a pseudo randomic char swap
+		rand.Shuffle(len(r), func(i, j int) {
+			r[i], r[j] = r[j], r[i]
+		})
+	}
 	return string(r)
 }
 
+// Osolete i'll remove it
 // Pick : return random string of lenght L extract it form  K (math/random)
-func Pick(L int, K string) (ret string) {
+/* func Pick(L int, K string) (ret string) {
 	rand.Seed(time.Now().Unix())
 
 	// yet another "i" loop
@@ -61,7 +71,7 @@ func Pick(L int, K string) (ret string) {
 		ret += string([]rune(K)[rand.Intn(utf8.RuneCountInString(K))])
 	}
 	return ret
-}
+} */
 
 // PickCrypto : return random string of lenght L extract it form  K (crypto/random)
 func PickCrypto(L int, K string) (ret string) {
@@ -82,7 +92,7 @@ func DefPick() {
 	// Print defaults message
 	fmt.Println(DEFMSG)
 	//create raw password
-	raw = Pick(NC, NS) + Pick(AC, LS) + Pick(UC, strings.ToUpper(LS)) + Pick(SC, SS)
+	raw = PickCrypto(NC, NS) + PickCrypto(AC, LS) + PickCrypto(UC, strings.ToUpper(LS)) + PickCrypto(SC, SS)
 	//print generated password
 	fmt.Println("OUTPUT: ", Melee(raw))
 }
