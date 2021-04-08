@@ -8,10 +8,10 @@ import (
 	"strings"
 )
 
-/* const (
-	exec string = "pswg"
-	ver  string = "0.3a"
-) */
+const (
+	Exec string = "pswg"
+	Ver  string = "0.4a"
+)
 
 func main() {
 
@@ -19,11 +19,11 @@ func main() {
 	// First Stet if no args passed use defaults
 	var (
 		raw string
-		nLM int = g.LM
-		nUC int = g.UC
+		nLM int = g.MinPwdLenght
+		nUC int = g.MinUpChar
 
-		nSC int = g.SC
-		nNC int = g.NC
+		nSC int = g.MinSpecChar
+		nNC int = g.MinNumChar
 		err error
 		x   int = 1 //Help me to remove a magic number and prevent problem with os.Args array
 	)
@@ -75,14 +75,15 @@ func main() {
 			}
 		}
 
-		if nLM < (nUC + nSC + nNC) {
+		if nLM < nUC+nSC+nNC {
 			g.DefPick()
 			return
 		}
+
+		//To obtain number of Alphanumeric charater
 		nLM = nLM - nUC - nSC - nNC
-		//fmt.Println("VAL: ", nLM)
-		//raw = g.Pick(nNC, g.NS) + g.Pick(nLM, g.LS) + g.Pick(nUC, strings.ToUpper(g.LS)) + g.Pick(nSC, g.SS)
-		raw = g.PickCrypto(nNC, g.NS) + g.PickCrypto(nLM, g.LS) + g.PickCrypto(nUC, strings.ToUpper(g.LS)) + g.PickCrypto(nSC, g.SS)
+
+		raw = g.PickCrypto(nNC, g.NumericPool) + g.PickCrypto(nLM, g.AlphanumericPool) + g.PickCrypto(nUC, strings.ToUpper(g.AlphanumericPool)) + g.PickCrypto(nSC, g.SpecialCharPool)
 		//fmt.Println("LENGHT: ", len([]rune(raw)))
 		fmt.Println("OUTPUT: ", g.Melee(raw))
 	}

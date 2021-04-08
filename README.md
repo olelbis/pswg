@@ -21,3 +21,4 @@ It's an personal excercise to create a simple stupid random password generator w
 -   23/03/2021  Tested with 1.16.2
 -   31/03/2021  Added more err handling, but i need to do more test
 -   03/04/2021  1.16.3 Check! Added a check to shuffle until fist character is a number (some vendor don't want this kind of password... But i don't know if i want to maintain this kind of request) Last but not least deprecate Pick Func
+-   08/04/2021  Find a more efficent way to re-call shuffle until fist character is a number

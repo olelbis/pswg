@@ -13,21 +13,21 @@ import (
 
 const (
 	//NS numeric string
-	NS string = "1234567890"
+	NumericPool string = "1234567890"
 	//LS alphanumeric string
-	LS string = "abcdefghijklmnopqrstuvwxyz"
+	AlphanumericPool string = "abcdefghijklmnopqrstuvwxyz"
 	//SS special character string
-	SS string = "!&%$£=?^+*][{}-_.:,;()><"
+	SpecialCharPool string = "!&%$£=?^+*][{}-_.:,;()><"
 	//LM Minimum Lenght
-	LM int = 12
+	MinPwdLenght int = 12
 	//UC Uppercase n of char
-	UC int = 1
+	MinUpChar int = 1
 	//AC Aplhanumeric n of char
-	AC int = 9
+	MinAlphaChar int = 9
 	//SC Special n of char
-	SC int = 1
+	MinSpecChar int = 1
 	//NC Numeric n of char
-	NC int = 1
+	MinNumChar int = 1
 	//DEFMSG default message
 	DEFMSG string = `No option specified or wrong number of arguments, use the defaults for generate random password:
 
@@ -45,15 +45,14 @@ func Melee(pwdin string) string {
 	r := []rune(pwdin)
 
 	//Use rand.Shuffle function to make a pseudo randomic char swap
+random:
 	rand.Shuffle(len(r), func(i, j int) {
 		r[i], r[j] = r[j], r[i]
 	})
-	// Loop until first char isn't a a number
-	for unicode.IsNumber(r[0]) {
-		//Use rand.Shuffle function to make a pseudo randomic char swap
-		rand.Shuffle(len(r), func(i, j int) {
-			r[i], r[j] = r[j], r[i]
-		})
+	// Check if first char it's a number
+	if unicode.IsNumber(r[0]) {
+		//If true goto rand.Shuffle function using label
+		goto random
 	}
 	return string(r)
 }
@@ -92,7 +91,7 @@ func DefPick() {
 	// Print defaults message
 	fmt.Println(DEFMSG)
 	//create raw password
-	raw = PickCrypto(NC, NS) + PickCrypto(AC, LS) + PickCrypto(UC, strings.ToUpper(LS)) + PickCrypto(SC, SS)
+	raw = PickCrypto(MinNumChar, NumericPool) + PickCrypto(MinAlphaChar, AlphanumericPool) + PickCrypto(MinUpChar, strings.ToUpper(AlphanumericPool)) + PickCrypto(MinSpecChar, SpecialCharPool)
 	//print generated password
 	fmt.Println("OUTPUT: ", Melee(raw))
 }
