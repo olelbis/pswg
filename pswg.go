@@ -9,27 +9,27 @@ import (
 )
 
 const (
-	Exec string = "pswg"
-	Ver  string = "0.0.9"
+	exec string = "pswg"
+	ver  string = "0.1.0"
 )
 
 func main() {
-
+	_, _ = exec, ver
 	// TO DO argument managment inside or outside main package!
 	// First Stet if no args passed use defaults
 	var (
-		raw string
-		nLM int = g.MinPwdLenght
-		nUC int = g.MinUpChar
+		rawpassw         string
+		nOfTotalChar     int = g.MinPwdLenght
+		nOfUpperCaseChar int = g.MinUpChar
 
-		nSC int = g.MinSpecChar
-		nNC int = g.MinNumChar
-		err error
-		x   int = 1 //Help me to remove a magic number and prevent problem with os.Args array
+		nOfSpechialChar int = g.MinSpecChar
+		nOfNumericChar  int = g.MinNumChar
+		err             error
+		x               int = 1 //Help me to remove a magic number and prevent problem with os.Args array
 	)
-
+	// Check if aguments are less than two, in this case i use the default function
 	if len(os.Args) < 2 {
-		g.DefPick()
+		g.DefaultPasswordGenerator()
 		return
 	} else if len(os.Args) <= 9 {
 
@@ -38,56 +38,63 @@ func main() {
 			case os.Args[i] == "-l":
 				if len(os.Args)-x > i {
 					i++
-					nLM, err = strconv.Atoi(os.Args[i])
+					nOfTotalChar, err = strconv.Atoi(os.Args[i])
 					if err != nil {
 						fmt.Println("ERROR:", err)
+						return
 					}
 				}
 
 			case os.Args[i] == "-u":
 				if len(os.Args)-x > i {
 					i++
-					nUC, _ = strconv.Atoi(os.Args[i])
+					nOfUpperCaseChar, err = strconv.Atoi(os.Args[i])
 					if err != nil {
 						fmt.Println("ERROR:", err)
+						return
 					}
 				}
 
 			case os.Args[i] == "-s":
 				if len(os.Args)-x > i {
 					i++
-					nSC, _ = strconv.Atoi(os.Args[i])
+					nOfSpechialChar, err = strconv.Atoi(os.Args[i])
 					if err != nil {
 						fmt.Println("ERROR:", err)
+						return
 					}
 				}
 
 			case os.Args[i] == "-n":
 				if len(os.Args)-x > i {
 					i++
-					nNC, _ = strconv.Atoi(os.Args[i])
+					nOfNumericChar, err = strconv.Atoi(os.Args[i])
 					if err != nil {
 						fmt.Println("ERROR:", err)
+						return
 					}
 				}
 			default:
-				fmt.Println(g.DEFMSG)
+				fmt.Println(g.DefautMessage)
 			}
 		}
 
-		if nLM < nUC+nSC+nNC {
-			g.DefPick()
+		if nOfTotalChar < nOfUpperCaseChar+nOfSpechialChar+nOfNumericChar {
+			g.DefaultPasswordGenerator()
 			return
 		}
 
 		//To obtain number of Alphanumeric charater
-		nLM = nLM - nUC - nSC - nNC
+		nOfTotalChar = nOfTotalChar - nOfUpperCaseChar - nOfSpechialChar - nOfNumericChar
 
-		raw = g.PickCrypto(nNC, g.NumericPool) + g.PickCrypto(nLM, g.AlphanumericPool) + g.PickCrypto(nUC, strings.ToUpper(g.AlphanumericPool)) + g.PickCrypto(nSC, g.SpecialCharPool)
+		rawpassw = g.PickCrypto(nOfNumericChar, g.NumericPool) +
+			g.PickCrypto(nOfTotalChar, g.AlphanumericPool) +
+			g.PickCrypto(nOfUpperCaseChar, strings.ToUpper(g.AlphanumericPool)) +
+			g.PickCrypto(nOfSpechialChar, g.SpecialCharPool)
 		//fmt.Println("LENGHT: ", len([]rune(raw)))
-		fmt.Println("OUTPUT: ", g.Melee(raw))
+		fmt.Println("OUTPUT: ", g.Melee(rawpassw))
 	}
-	//fmt.Println("TEST:", g.PickCrypto(nLM, g.LS))
+
 	/*
 		l, _ := strconv.Atoi(os.Args[1])
 
