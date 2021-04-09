@@ -29,7 +29,7 @@ const (
 	//NC Numeric n of char
 	MinNumChar int = 1
 	//DEFMSG default message
-	DEFMSG string = `No option specified or wrong number of arguments, use the defaults for generate random password:
+	DefautMessage string = `No option specified or wrong number of arguments, use the defaults for generate random password:
 
 1 Numeric
 1 Special Char
@@ -86,10 +86,10 @@ func PickCrypto(L int, K string) (ret string) {
 }
 
 // DefPick : return random password based on predefined rule
-func DefPick() {
+func DefaultPasswordGenerator() {
 	var raw string
 	// Print defaults message
-	fmt.Println(DEFMSG)
+	fmt.Println(DefautMessage)
 	//create raw password
 	raw = PickCrypto(MinNumChar, NumericPool) + PickCrypto(MinAlphaChar, AlphanumericPool) + PickCrypto(MinUpChar, strings.ToUpper(AlphanumericPool)) + PickCrypto(MinSpecChar, SpecialCharPool)
 	//print generated password
