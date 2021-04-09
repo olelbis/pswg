@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [0.1.0] - 2021-04-09
+#### Added
+> _n/a_ 
+#### Changed
+> Changed constant,variabels and function name (not all but now are more esplicative,and the code seem more readable i hope) 
+#### Fixed
+> _n/a_ 
+
+---
+
 ### [0.0.9] - 2021-04-08
 #### Added
 > Find a more efficent way to re-call shuffle until fist character is a number
