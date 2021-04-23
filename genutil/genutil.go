@@ -29,12 +29,14 @@ const (
 	//NC Numeric n of char
 	MinNumChar int = 1
 	//DEFMSG default message
-	DefautMessage string = `No option specified or wrong number of arguments, use the defaults for generate random password:
+	DefautMessage string = `Usage:
+	pswg -l <Password Length (Default: 12)> -u <N. of Alphanumeric Uppercase> -s <N. of Special Char> -n <N. of Numeric Char>
 
+No option specified or wrong number of arguments, use the defaults to generate random password:
 1 Numeric
 1 Special Char
-1 Alphanumenrical Uppercase
-9 Alphanumentical Lovercase
+1 Alphanumeric Uppercase
+9 Alphanumeric Lovercase
 `
 )
 
