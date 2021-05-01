@@ -10,7 +10,7 @@ import (
 
 const (
 	exec string = "pswg"
-	ver  string = "0.1.0"
+	ver  string = "0.1.2"
 )
 
 func main() {
@@ -21,11 +21,12 @@ func main() {
 		rawpassw         string
 		nOfTotalChar     int = g.MinPwdLenght
 		nOfUpperCaseChar int = g.MinUpChar
+		maxpwdlenght     int = g.Maxpwdlenght
+		nOfSpechialChar  int = g.MinSpecChar
+		nOfNumericChar   int = g.MinNumChar
 
-		nOfSpechialChar int = g.MinSpecChar
-		nOfNumericChar  int = g.MinNumChar
-		err             error
-		x               int = 1 //Help me to remove a magic number and prevent problem with os.Args array
+		err error
+		x   int = 1 //Help me to remove a magic number and prevent problem with os.Args array
 	)
 	// Check if aguments are less than two, in this case i use the default function
 	if len(os.Args) < 2 {
@@ -41,7 +42,10 @@ func main() {
 					nOfTotalChar, err = strconv.Atoi(os.Args[i])
 					if err != nil {
 						fmt.Println("ERROR:", err)
+						fmt.Println(g.UsageMessage)
 						return
+					} else if g.Ispwdtoolong(nOfTotalChar) {
+						nOfTotalChar = maxpwdlenght
 					}
 				}
 
@@ -51,7 +55,7 @@ func main() {
 					nOfUpperCaseChar, err = strconv.Atoi(os.Args[i])
 					if err != nil {
 						fmt.Println("ERROR:", err)
-						return
+						//return
 					}
 				}
 
@@ -61,7 +65,7 @@ func main() {
 					nOfSpechialChar, err = strconv.Atoi(os.Args[i])
 					if err != nil {
 						fmt.Println("ERROR:", err)
-						return
+						//return
 					}
 				}
 
@@ -71,11 +75,14 @@ func main() {
 					nOfNumericChar, err = strconv.Atoi(os.Args[i])
 					if err != nil {
 						fmt.Println("ERROR:", err)
-						return
+						//return
 					}
 				}
+			case os.Args[i] == "--silent":
+				return
 			default:
 				fmt.Println(g.DefautMessage)
+				//return
 			}
 		}
 

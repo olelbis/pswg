@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [0.1.2] - 2021-05-01
+#### Added
+> _n/a_ 
+#### Changed
+> Change default message again
+#### Fixed
+> Bug in maximum password lenght
+
+---
+
 ### [0.1.1] - 2021-04-22
 #### Added
 > _n/a_ 

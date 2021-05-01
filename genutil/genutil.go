@@ -18,8 +18,10 @@ const (
 	AlphanumericPool string = "abcdefghijklmnopqrstuvwxyz"
 	//SS special character string
 	SpecialCharPool string = "!&%$£=?^+*][{}-_.:,;()><"
-	//LM Minimum Lenght
+	//MinPwdLenght Minimum Password Lenght
 	MinPwdLenght int = 12
+	//Maxpwdlenght Maximum Password Lenght
+	Maxpwdlenght int = 128
 	//UC Uppercase n of char
 	MinUpChar int = 1
 	//AC Aplhanumeric n of char
@@ -27,12 +29,16 @@ const (
 	//SC Special n of char
 	MinSpecChar int = 1
 	//NC Numeric n of char
-	MinNumChar int = 1
-	//DEFMSG default message
-	DefautMessage string = `Usage:
-	pswg -l <Password Length (Default: 12)> -u <N. of Alphanumeric Uppercase> -s <N. of Special Char> -n <N. of Numeric Char>
+	MinNumChar   int    = 1
+	UsageMessage string = `Usage:
+	pswg -l <Password Length (Default: 12, upper limit 128)> -u <N. of Alphanumeric Uppercase> -s <N. of Special Char> -n <N. of Numeric Char>`
+	//DefautMessage default message
+	DefautMessage string = `
+Default password value used, possible causes: 
+-	no option specified
+-	wrong number of arguments
 
-No option specified or wrong number of arguments, use the defaults to generate random password:
+Password seed with:
 1 Numeric
 1 Special Char
 1 Alphanumeric Uppercase
@@ -59,20 +65,13 @@ random:
 	return string(r)
 }
 
-// Osolete i'll remove it
-// Pick : return random string of lenght L extract it form  K (math/random)
-/* func Pick(L int, K string) (ret string) {
-	rand.Seed(time.Now().Unix())
-
-	// yet another "i" loop
-	for i := 1; i <= L; i++ {
-
-		//Use utf8.RuneCountInString to prevent index out of range (panic)
-		//in case of multibyte character
-		ret += string([]rune(K)[rand.Intn(utf8.RuneCountInString(K))])
+func Ispwdtoolong(passwordlenght int) bool {
+	if passwordlenght > Maxpwdlenght {
+		return true
+	} else {
+		return false
 	}
-	return ret
-} */
+}
 
 // PickCrypto : return random string of lenght L extract it form  K (crypto/random)
 func PickCrypto(L int, K string) (ret string) {
@@ -90,6 +89,8 @@ func PickCrypto(L int, K string) (ret string) {
 // DefPick : return random password based on predefined rule
 func DefaultPasswordGenerator() {
 	var raw string
+	// Print usage message
+	fmt.Println(UsageMessage)
 	// Print defaults message
 	fmt.Println(DefautMessage)
 	//create raw password
