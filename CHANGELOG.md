@@ -1,5 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+### [0.1.3] - 2021-06-09
+#### Added
+> Play with ansi color 
+#### Changed
+> _n/a_
+#### Fixed
+> _n/a_
+
+---
 
 ### [0.1.2] - 2021-05-01
 #### Added
