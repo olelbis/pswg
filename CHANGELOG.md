@@ -1,10 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-### [0.1.3] - 2021-06-09
+### [0.1.3] - 2021-06-12
 #### Added
-> Play with ansi color 
+> Start Play with ansi color 
 #### Changed
-> _n/a_
+> Move some const to var for a properties file implementation
 #### Fixed
 > _n/a_
 

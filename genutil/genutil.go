@@ -18,21 +18,25 @@ const (
 	//   1;34m = This mean 1 for bold of intensity(SGF) and 34 is for blue (3-4bit) last nbiut not least m is for use SGF
 	//   %s = String Value from printf input
 	//   \033[0m = back to default
-	InfoColor    = "\033[1;34m%s\033[0m"
-	NoticeColor  = "\033[1;36m%s\033[0m"
+	InfoColor    = "\033[0;32m%s\033[0m"
+	NoticeColor  = "\033[0;36m%s\033[0m"
 	WarningColor = "\033[1;33m%s\033[0m"
+	OutputColor  = "\033[44;30m%s\033[0m"
 	ErrorColor   = "\033[1;31m%s\033[0m"
 	DebugColor   = "\033[0;36m%s\033[0m"
+	//MinPwdLenght Minimum Password Lenght
+	MinPwdLenght int = 12
+	//Maxpwdlenght Maximum Password Lenght
+	Maxpwdlenght int = 128
+)
+
+var (
 	//NS numeric string
 	NumericPool string = "1234567890"
 	//LS alphanumeric string
 	AlphanumericPool string = "abcdefghijklmnopqrstuvwxyz"
 	//SS special character string
 	SpecialCharPool string = "!&%$£=?^+*][{}-_.:,;()><"
-	//MinPwdLenght Minimum Password Lenght
-	MinPwdLenght int = 12
-	//Maxpwdlenght Maximum Password Lenght
-	Maxpwdlenght int = 128
 	//UC Uppercase n of char
 	MinUpChar int = 1
 	//AC Aplhanumeric n of char
@@ -103,10 +107,10 @@ func DefaultPasswordGenerator() {
 	// Print usage message
 	fmt.Printf(InfoColor, UsageMessage)
 	// Print defaults message
-	fmt.Printf(NoticeColor, DefautMessage)
+	fmt.Printf(InfoColor, DefautMessage)
 	//create raw password
 	raw = PickCrypto(MinNumChar, NumericPool) + PickCrypto(MinAlphaChar, AlphanumericPool) + PickCrypto(MinUpChar, strings.ToUpper(AlphanumericPool)) + PickCrypto(MinSpecChar, SpecialCharPool)
 	//print generated password
-	fmt.Printf(NoticeColor, "OUTPUT: "+Melee(raw))
+	fmt.Printf(OutputColor, "OUTPUT: "+Melee(raw)+"\n")
 
 }
