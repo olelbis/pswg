@@ -94,12 +94,14 @@ func main() {
 		//To obtain number of Alphanumeric charater
 		nOfTotalChar = nOfTotalChar - nOfUpperCaseChar - nOfSpechialChar - nOfNumericChar
 
+		//fmt.Println("LENGHT: ", len([]rune(raw)))
+		//for i := 0; i <= 9; i++ {
 		rawpassw = g.PickCrypto(nOfNumericChar, g.NumericPool) +
 			g.PickCrypto(nOfTotalChar, g.AlphanumericPool) +
 			g.PickCrypto(nOfUpperCaseChar, strings.ToUpper(g.AlphanumericPool)) +
 			g.PickCrypto(nOfSpechialChar, g.SpecialCharPool)
-		//fmt.Println("LENGHT: ", len([]rune(raw)))
 		fmt.Println("OUTPUT: ", g.Melee(rawpassw))
+		//}
 	}
 
 	/*
