@@ -90,14 +90,14 @@ func Ispwdtoolong(passwordlenght int) bool {
 }
 
 // PickCrypto : return random string of lenght L extract it form  K (crypto/random)
-func PickCrypto(L int, K string) (ret string) {
+func PickCrypto(lenght int, keyrandom string) (ret string) {
 
 	// yet another "i" loop
-	for i := 1; i <= L; i++ {
-		result, _ := cr.Int(cr.Reader, big.NewInt(int64(utf8.RuneCountInString(K))))
+	for i := 1; i <= lenght; i++ {
+		result, _ := cr.Int(cr.Reader, big.NewInt(int64(utf8.RuneCountInString(keyrandom))))
 		//Use utf8.RuneCountInString to prevent index out of range (panic)
 		//in case of multibyte character
-		ret += string([]rune(K)[int(result.Int64())])
+		ret += string([]rune(keyrandom)[int(result.Int64())])
 	}
 	return ret
 }
@@ -112,6 +112,6 @@ func DefaultPasswordGenerator() {
 	//create raw password
 	raw = PickCrypto(MinNumChar, NumericPool) + PickCrypto(MinAlphaChar, AlphanumericPool) + PickCrypto(MinUpChar, strings.ToUpper(AlphanumericPool)) + PickCrypto(MinSpecChar, SpecialCharPool)
 	//print generated password
-	fmt.Printf(Outputcolor, "OUTPUT: "+Melee(raw)+"\n")
+	fmt.Println("OUTPUT: " + Melee(raw))
 
 }
