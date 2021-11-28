@@ -28,3 +28,4 @@ As suggested by my two moron friends i've added a changelog, now i need to impro
                    ▒▒▒▒▒▒▒▒▒▒▀▀
 
 ```
+Memecoin rulez!
