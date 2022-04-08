@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [0.1.3.1] - 2022-04-08
+#### Added
+> After a long hiatus i'm sarting write fist tests
+#### Changed
+> Review Melee function due to testing approach
+#### Fixed
+> _n/a_
+
+---
 ### [0.1.3] - 2021-06-12
 #### Added
 > Start Play with ansi color 

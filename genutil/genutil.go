@@ -2,6 +2,7 @@ package genutil
 
 import (
 	cr "crypto/rand"
+	"errors"
 	"fmt"
 	"math/big"
 	"math/rand"
@@ -63,7 +64,10 @@ Password seed with:
 )
 
 //Melee : Get a string in input e do some shuffle
-func Melee(pwdin string) string {
+func Melee(pwdin string) (string, error) {
+	if len(pwdin) < MinPwdLenght {
+		return "", errors.New("empty pwdin")
+	}
 	rand.Seed(time.Now().Unix())
 	// Transform string to rune
 	r := []rune(pwdin)
@@ -78,7 +82,7 @@ random:
 		//If true goto rand.Shuffle function using label
 		goto random
 	}
-	return string(r)
+	return string(r), nil
 }
 
 func Ispwdtoolong(passwordlenght int) bool {
@@ -112,6 +116,7 @@ func DefaultPasswordGenerator() {
 	//create raw password
 	raw = PickCrypto(MinNumChar, NumericPool) + PickCrypto(MinAlphaChar, AlphanumericPool) + PickCrypto(MinUpChar, strings.ToUpper(AlphanumericPool)) + PickCrypto(MinSpecChar, SpecialCharPool)
 	//print generated password
-	fmt.Println("OUTPUT: " + Melee(raw))
+	melee, _ := Melee(raw)
+	fmt.Println("OUTPUT: " + melee)
 
 }

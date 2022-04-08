@@ -10,7 +10,7 @@ import (
 
 const (
 	exec string = "pswg"
-	ver  string = "0.1.3"
+	ver  string = "0.1.3.1"
 )
 
 func main() {
@@ -100,7 +100,8 @@ func main() {
 			g.PickCrypto(nOfTotalChar, g.AlphanumericPool) +
 			g.PickCrypto(nOfUpperCaseChar, strings.ToUpper(g.AlphanumericPool)) +
 			g.PickCrypto(nOfSpechialChar, g.SpecialCharPool)
-		fmt.Println("OUTPUT: ", g.Melee(rawpassw))
+		melee, _ := g.Melee(rawpassw)
+		fmt.Println("OUTPUT: ", melee)
 		//}
 	}
 
