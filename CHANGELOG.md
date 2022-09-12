@@ -1,5 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+### [0.1.3.2] - 2022-09-12
+#### Added
+> Another long hiatus doing few test with 1.19
+#### Changed
+> _n/a_
+#### Fixed
+> _n/a_
 
 ### [0.1.3.1] - 2022-04-08
 #### Added
