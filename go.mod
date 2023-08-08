@@ -1,3 +1,3 @@
-module passgen
+module pswg
 
 go 1.19
