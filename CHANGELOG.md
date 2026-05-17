@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.8] - 2026-05-17
+#### Changed
+> Updated GitHub Actions checkout usage to `actions/checkout@v6`.
+
+---
+
 ### [1.0.7] - 2026-05-17
 #### Added
 > Added GitHub artifact attestations for release assets and checksums.
