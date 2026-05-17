@@ -54,8 +54,23 @@ func TestRunRejectsTooLongPassword(t *testing.T) {
 	if stdout.Len() != 0 {
 		t.Fatalf("stdout = %q; want empty", stdout.String())
 	}
-	if !strings.Contains(stderr.String(), "maximum") {
+	if !strings.Contains(stderr.String(), "no more than 128") {
 		t.Fatalf("stderr = %q; want maximum length error", stderr.String())
+	}
+}
+
+func TestRunRejectsSilentFlag(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+
+	code := run([]string{"--silent"}, &stdout, &stderr)
+	if code != 2 {
+		t.Fatalf("run(--silent) exit code = %d; want 2", code)
+	}
+	if stdout.Len() != 0 {
+		t.Fatalf("stdout = %q; want empty", stdout.String())
+	}
+	if !strings.Contains(stderr.String(), "flag provided but not defined") {
+		t.Fatalf("stderr = %q; want unknown flag error", stderr.String())
 	}
 }
 

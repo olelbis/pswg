@@ -36,10 +36,15 @@ func run(args []string, stdout, stderr io.Writer) int {
 	uppercase := flags.Int("u", genutil.MinUpChar, "number of uppercase characters")
 	special := flags.Int("s", genutil.MinSpecChar, "number of special characters")
 	numeric := flags.Int("n", genutil.MinNumChar, "number of numeric characters")
-	silent := flags.Bool("silent", false, "do not generate output")
 	showVersion := flags.Bool("version", false, "print version")
 	flags.Usage = func() {
-		fmt.Fprintln(stderr, genutil.UsageMessage)
+		fmt.Fprintf(stderr, `Usage:
+	%s [-l length] [-u uppercase] [-s special] [-n numeric]
+	%s -version
+
+Options:
+`, exec, exec)
+		flags.PrintDefaults()
 	}
 
 	if err := flags.Parse(args); err != nil {
@@ -53,9 +58,6 @@ func run(args []string, stdout, stderr io.Writer) int {
 		if commit != "unknown" || date != "unknown" {
 			fmt.Fprintf(stdout, "commit %s\nbuilt %s\n", commit, date)
 		}
-		return 0
-	}
-	if *silent {
 		return 0
 	}
 	if flags.NArg() > 0 {

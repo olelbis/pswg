@@ -1,6 +1,26 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.0] - 2026-05-17
+#### Added
+> Added release archives with SHA-256 checksums through `make release`.
+>
+> Added a tag-driven release workflow that publishes GitHub Release assets.
+#### Changed
+> Promoted the project from alpha to a stable release.
+>
+> Reworked build output to use `build/` for local binaries and `dist/` for release archives.
+>
+> Removed experimental wording and alpha install instructions from the README.
+>
+> Limited the default special-character pool to printable ASCII.
+#### Removed
+> Removed the `install` Make target.
+>
+> Removed the no-op `--silent` CLI flag.
+
+---
+
 ### [0.5.0-alpha] - 2026-05-17
 #### Added
 > Added a Makefile with check, build, dist, install, and clean targets.

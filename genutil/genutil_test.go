@@ -41,6 +41,14 @@ func TestPickCryptoRejectsEmptyPool(t *testing.T) {
 	}
 }
 
+func TestSpecialCharPoolIsASCII(t *testing.T) {
+	for _, r := range SpecialCharPool {
+		if r > unicode.MaxASCII {
+			t.Fatalf("SpecialCharPool contains non-ASCII rune %q", r)
+		}
+	}
+}
+
 func TestGeneratePasswordUsesRequestedLength(t *testing.T) {
 	password, err := GeneratePassword(16, 2, 2, 2)
 	if err != nil {

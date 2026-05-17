@@ -2,21 +2,12 @@
 
 [![Go Version](https://img.shields.io/github/go-mod/go-version/olelbis/pswg)](https://github.com/olelbis/pswg/blob/main/go.mod)
 [![CI](https://github.com/olelbis/pswg/actions/workflows/ci.yml/badge.svg)](https://github.com/olelbis/pswg/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/github/v/tag/olelbis/pswg?include_prereleases&label=version)](https://github.com/olelbis/pswg/tags)
+[![Version](https://img.shields.io/github/v/tag/olelbis/pswg?label=version)](https://github.com/olelbis/pswg/tags)
 [![License: MIT](https://img.shields.io/github/license/olelbis/pswg)](https://github.com/olelbis/pswg/blob/main/LICENSE)
-[![Status: experimental](https://img.shields.io/badge/status-experimental-orange)](https://github.com/olelbis/pswg)
 
-`pswg` is a small experimental password generator written while learning Go.
+`pswg` is a small password generator CLI written in Go.
 
 It uses `crypto/rand` for character selection and shuffling, keeps the generated password within a configurable length, and can require a minimum number of uppercase, special, and numeric characters.
-
-> Experimental software: use it as a learning project. It has not been audited as a security tool.
-
-## Install
-
-```sh
-go install github.com/olelbis/pswg@v0.5.0-alpha
-```
 
 ## Usage
 
@@ -49,8 +40,6 @@ pswg -version
     Number of special characters. Default: 1.
 -n int
     Number of numeric characters. Default: 1.
---silent
-    Exit without output.
 -version
     Print the current version.
 ```
@@ -63,24 +52,27 @@ Run the full local check:
 make check
 ```
 
-Build a local binary with version metadata:
+Build a local binary:
 
 ```sh
-make build
-./bin/pswg -version
+make build VERSION=v1.0.0
+./build/pswg -version
 ```
 
-Build release-style binaries for supported targets:
+Build release archives with checksums:
 
 ```sh
-make dist
+make release VERSION=v1.0.0
 ```
+
+Pushing a `v*` tag runs the release workflow and publishes the generated archives plus `SHA256SUMS` to GitHub Releases.
 
 ## Notes
 
 - Minimum password length is 12 characters.
 - Maximum password length is 128 characters.
 - Requested character counts cannot be negative or exceed the password length.
+- Special characters are printable ASCII for broad compatibility.
 - When possible, the generated password is shuffled so it does not start with a number.
 
 ## License

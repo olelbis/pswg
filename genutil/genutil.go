@@ -1,3 +1,4 @@
+// Package genutil generates random passwords for the pswg CLI.
 package genutil
 
 import (
@@ -22,18 +23,13 @@ const (
 
 	NumericPool      = "1234567890"
 	AlphanumericPool = "abcdefghijklmnopqrstuvwxyz"
-	SpecialCharPool  = "!&%$£=?^+*][{}-_.:,;()><"
+	SpecialCharPool  = "!&%$=?^+*][{}-_.:,;()><"
 
 	MinUpChar    = 1
 	MinAlphaChar = 9
 	MinSpecChar  = 1
 	MinNumChar   = 1
 )
-
-var UsageMessage string = `Usage:
-	pswg [-l <Password Length (Default: 12, upper limit 128)>] [-u <N. of Alphanumeric Uppercase>] [-s <N. of Special Char>] [-n <N. of Numeric Char>]
-	pswg -version
-	pswg --silent`
 
 // Policy describes the composition rules for generated passwords.
 type Policy struct {
@@ -60,10 +56,10 @@ func (p Policy) lowercase() int {
 // Validate checks that a policy can be used to generate a password.
 func (p Policy) Validate() error {
 	if p.Length < MinPasswordLength {
-		return errors.New("password length is shorter than minimum length")
+		return errors.New("password length must be at least 12")
 	}
 	if p.Length > MaxPasswordLength {
-		return errors.New("password length is longer than maximum length")
+		return errors.New("password length must be no more than 128")
 	}
 	if p.Uppercase < 0 || p.Special < 0 || p.Numeric < 0 {
 		return errors.New("character counts cannot be negative")
