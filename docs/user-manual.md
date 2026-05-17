@@ -169,6 +169,11 @@ password="$(pswg -safe)"
 some-command --password "$password"
 ```
 
+See also:
+
+- [Security policy](../SECURITY.md)
+- [Security review checklist](security-review.md)
+
 ## Invalid Examples
 
 Length below the minimum:
@@ -250,19 +255,20 @@ make check
 Build a local binary:
 
 ```sh
-make build VERSION=v1.0.6
+make build VERSION=v1.0.7
 ./build/pswg -version
 ```
 
 Build release archives, Linux packages, and checksums:
 
 ```sh
-make release VERSION=v1.0.6
+make release VERSION=v1.0.7
 ```
 
 `make release` produces:
 
 - `.tar.gz` archives for Darwin arm64/amd64, Linux arm64/amd64, and Windows arm64/amd64
+- `.zip` archives for Windows arm64/amd64
 - `.deb` packages for Linux
 - `.rpm` packages for Linux
 - `SHA256SUMS`
@@ -274,6 +280,24 @@ The release workflow installs `nfpm` automatically. For local package builds, in
 ```sh
 go install github.com/goreleaser/nfpm/v2/cmd/nfpm@v2.46.3
 ```
+
+## Release Verification
+
+GitHub releases include SHA-256 checksums, an SPDX SBOM, and Sigstore-backed GitHub artifact attestations.
+
+Verify checksums:
+
+```sh
+shasum -a 256 -c SHA256SUMS
+```
+
+Verify artifact provenance:
+
+```sh
+gh attestation verify pswg_VERSION_OS_ARCH.tar.gz -R olelbis/pswg
+```
+
+Read [distribution notes](distribution.md) for Homebrew, Scoop, WinGet, and AUR packaging templates.
 
 ## Installed Files In Linux Packages
 

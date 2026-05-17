@@ -20,13 +20,16 @@ jobs:
           go-version-file: go.mod
 
       - name: Format check
-        run: test -z "$(gofmt -l pswg.go pswg_test.go genutil/genutil.go genutil/genutil_test.go)"
+        run: test -z "$(gofmt -l pswg.go pswg_test.go genutil/genutil.go genutil/genutil_test.go genutil/example_test.go)"
 
       - name: Test
         run: go test ./...
 
       - name: Vet
         run: go vet ./...
+
+      - name: Vulnerability check
+        run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
 
       - name: Build
         run: CGO_ENABLED=0 go build -trimpath ./...

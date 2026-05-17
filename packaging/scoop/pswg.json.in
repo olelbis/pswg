@@ -1,0 +1,30 @@
+{
+  "version": "{{VERSION}}",
+  "description": "Small password generator CLI written in Go",
+  "homepage": "https://github.com/olelbis/pswg",
+  "license": "MIT",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/olelbis/pswg/releases/download/v{{VERSION}}/pswg_v{{VERSION}}_windows_amd64.zip",
+      "hash": "{{WINDOWS_AMD64_SHA256}}"
+    },
+    "arm64": {
+      "url": "https://github.com/olelbis/pswg/releases/download/v{{VERSION}}/pswg_v{{VERSION}}_windows_arm64.zip",
+      "hash": "{{WINDOWS_ARM64_SHA256}}"
+    }
+  },
+  "bin": "pswg.exe",
+  "checkver": {
+    "github": "https://github.com/olelbis/pswg"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/olelbis/pswg/releases/download/v$version/pswg_v$version_windows_amd64.zip"
+      },
+      "arm64": {
+        "url": "https://github.com/olelbis/pswg/releases/download/v$version/pswg_v$version_windows_arm64.zip"
+      }
+    }
+  }
+}

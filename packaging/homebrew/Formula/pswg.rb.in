@@ -1,0 +1,27 @@
+class Pswg < Formula
+  desc "Small password generator CLI written in Go"
+  homepage "https://github.com/olelbis/pswg"
+  license "MIT"
+  version "{{VERSION}}"
+
+  on_macos do
+    on_arm do
+      url "https://github.com/olelbis/pswg/releases/download/v{{VERSION}}/pswg_v{{VERSION}}_darwin_arm64.tar.gz"
+      sha256 "{{DARWIN_ARM64_SHA256}}"
+    end
+
+    on_intel do
+      url "https://github.com/olelbis/pswg/releases/download/v{{VERSION}}/pswg_v{{VERSION}}_darwin_amd64.tar.gz"
+      sha256 "{{DARWIN_AMD64_SHA256}}"
+    end
+  end
+
+  def install
+    bin.install "pswg"
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/pswg -version")
+    assert_equal 12, shell_output("#{bin}/pswg").strip.length
+  end
+end

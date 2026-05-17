@@ -9,7 +9,7 @@ BUILD_DIR := build
 DIST_DIR := dist
 NFPM ?= nfpm
 
-.PHONY: build check clean fmt packages release release-archives test vet
+.PHONY: build check checksums clean fmt packages release release-archives test vet
 
 build:
 	mkdir -p $(BUILD_DIR)
@@ -18,7 +18,7 @@ build:
 check: fmt test vet
 
 fmt:
-	gofmt -w pswg.go pswg_test.go genutil/genutil.go genutil/genutil_test.go
+	gofmt -w pswg.go pswg_test.go genutil/genutil.go genutil/genutil_test.go genutil/example_test.go
 
 test:
 	go test ./...
@@ -26,8 +26,10 @@ test:
 vet:
 	go vet ./...
 
-release: clean check release-archives packages
-	cd $(DIST_DIR) && shasum -a 256 * > SHA256SUMS
+release: clean check release-archives packages checksums
+
+checksums:
+	cd $(DIST_DIR) && find . -maxdepth 1 -type f ! -name SHA256SUMS -print | sed 's#^\./##' | sort | xargs shasum -a 256 > SHA256SUMS
 
 release-archives:
 	mkdir -p $(DIST_DIR)
@@ -45,9 +47,11 @@ release-archives:
 	rm $(DIST_DIR)/$(APP)
 	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o $(DIST_DIR)/$(APP).exe .
 	tar -C $(DIST_DIR) -czf $(DIST_DIR)/$(APP)_$(VERSION)_windows_amd64.tar.gz $(APP).exe
+	zip -j $(DIST_DIR)/$(APP)_$(VERSION)_windows_amd64.zip $(DIST_DIR)/$(APP).exe
 	rm $(DIST_DIR)/$(APP).exe
 	CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o $(DIST_DIR)/$(APP).exe .
 	tar -C $(DIST_DIR) -czf $(DIST_DIR)/$(APP)_$(VERSION)_windows_arm64.tar.gz $(APP).exe
+	zip -j $(DIST_DIR)/$(APP)_$(VERSION)_windows_arm64.zip $(DIST_DIR)/$(APP).exe
 	rm $(DIST_DIR)/$(APP).exe
 
 packages:

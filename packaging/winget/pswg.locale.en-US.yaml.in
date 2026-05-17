@@ -1,0 +1,9 @@
+PackageIdentifier: olelbis.pswg
+PackageVersion: "{{VERSION}}"
+PackageLocale: en-US
+Publisher: olelbis
+PackageName: pswg
+License: MIT
+ShortDescription: Small password generator CLI written in Go.
+ManifestType: defaultLocale
+ManifestVersion: 1.9.0

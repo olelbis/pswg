@@ -1,6 +1,26 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.7] - 2026-05-17
+#### Added
+> Added GitHub artifact attestations for release assets and checksums.
+>
+> Added SPDX SBOM generation to release assets.
+>
+> Added Homebrew, Scoop, WinGet, and AUR packaging templates.
+>
+> Added Windows zip archives for package-manager-friendly distribution.
+>
+> Added a security policy, security review checklist, and Go doc examples for the public generator API.
+>
+> Added Dependabot configuration for Go modules and GitHub Actions.
+#### Changed
+> Updated CI to run `govulncheck`.
+>
+> Updated release checksum generation so generated checksum files are not included in themselves.
+
+---
+
 ### [1.0.6] - 2026-05-17
 #### Added
 > Added a security model and threat-model notes to the user manual and man page.
