@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.6] - 2026-05-17
+#### Added
+> Added a security model and threat-model notes to the user manual and man page.
+>
+> Added a Windows arm64 release archive.
+#### Changed
+> Added clearer public `genutil` API names for random picking, shuffling, default password generation, and maximum-length checks while keeping the old names as deprecated compatibility wrappers.
+
+---
+
 ### [1.0.5] - 2026-05-17
 #### Added
 > Added a pswg(1) man page.

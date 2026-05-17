@@ -127,6 +127,24 @@ some-command --password "$password"
 Even with
 .Fl safe
 , quoting variables is still recommended.
+.Sh SECURITY MODEL
+.Nm
+uses Go's crypto/rand package for random selection and shuffling.
+It is intended to reduce predictable password generation and to make
+composition rules explicit.
+.Pp
+.Nm
+is not a password manager.
+It does not store, sync, rotate, encrypt, check reuse, or validate
+destination-specific password policies.
+The project has not had an external security audit.
+.Pp
+The threat model covers password generation with operating-system
+cryptographic randomness and the requested composition rules.
+It does not cover passwords after they are printed to standard output,
+compromised terminals, shell history, logs, process inspection, clipboard
+managers, malicious hosts, unsafe script usage, or whether a specific
+service accepts the generated password.
 .Sh CHARACTER SETS
 .Bl -tag -width Ds
 .It Lowercase

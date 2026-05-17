@@ -42,13 +42,13 @@ pswg -h
 
 ## Documentation
 
-Read the [user manual](docs/user-manual.md) for all flags, valid combinations, shell usage, invalid examples, exit codes, character sets, packaging, and build commands.
+Read the [user manual](docs/user-manual.md) for all flags, valid combinations, shell usage, security model, invalid examples, exit codes, character sets, packaging, and build commands.
 
 ## Build
 
 ```sh
 make check
-make build VERSION=v1.0.5
+make build VERSION=v1.0.6
 ```
 
 ## License

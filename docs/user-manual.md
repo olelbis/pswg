@@ -143,6 +143,32 @@ some-command --password "$password"
 
 Even with `-safe`, quoting variables is still the recommended shell practice.
 
+## Security Model
+
+`pswg` uses Go's `crypto/rand` package for random selection and shuffling. It is intended to reduce predictable password generation and to make composition rules explicit.
+
+`pswg` is not a password manager. It does not store, sync, rotate, encrypt, check reuse, or validate destination-specific password policies. The project has not had an external security audit.
+
+In scope:
+
+- generating passwords with operating-system cryptographic randomness
+- enforcing the requested length and character counts
+- avoiding shell-fragile special characters when `-safe` is used
+
+Out of scope:
+
+- protecting passwords after they are printed to stdout
+- compromised terminals, shells, hosts, logs, process inspection, or clipboard managers
+- unsafe script usage such as unquoted command substitution
+- validating whether a generated password is accepted by a specific service
+
+For scripts, capture and pass passwords through quoted variables:
+
+```sh
+password="$(pswg -safe)"
+some-command --password "$password"
+```
+
 ## Invalid Examples
 
 Length below the minimum:
@@ -224,19 +250,19 @@ make check
 Build a local binary:
 
 ```sh
-make build VERSION=v1.0.5
+make build VERSION=v1.0.6
 ./build/pswg -version
 ```
 
 Build release archives, Linux packages, and checksums:
 
 ```sh
-make release VERSION=v1.0.5
+make release VERSION=v1.0.6
 ```
 
 `make release` produces:
 
-- `.tar.gz` archives for supported operating systems and architectures
+- `.tar.gz` archives for Darwin arm64/amd64, Linux arm64/amd64, and Windows arm64/amd64
 - `.deb` packages for Linux
 - `.rpm` packages for Linux
 - `SHA256SUMS`

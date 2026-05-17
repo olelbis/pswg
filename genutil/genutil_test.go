@@ -7,37 +7,52 @@ import (
 	"unicode/utf8"
 )
 
-func TestMeleeRejectsShortPassword(t *testing.T) {
-	if melee, err := Melee(""); err == nil {
-		t.Fatalf("Melee(\"\") = %q, nil; want error", melee)
+func TestShuffleRejectsShortPassword(t *testing.T) {
+	if shuffled, err := Shuffle(""); err == nil {
+		t.Fatalf("Shuffle(\"\") = %q, nil; want error", shuffled)
 	}
 }
 
-func TestMeleeFullKeepsLength(t *testing.T) {
+func TestShuffleKeepsLength(t *testing.T) {
 	input := "S0n0B1sKu3D0!!"
-	melee, err := Melee(input)
+	shuffled, err := Shuffle(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if utf8.RuneCountInString(melee) != utf8.RuneCountInString(input) {
-		t.Fatalf("Melee(%q) length = %d; want %d", input, utf8.RuneCountInString(melee), utf8.RuneCountInString(input))
+	if utf8.RuneCountInString(shuffled) != utf8.RuneCountInString(input) {
+		t.Fatalf("Shuffle(%q) length = %d; want %d", input, utf8.RuneCountInString(shuffled), utf8.RuneCountInString(input))
 	}
 }
 
-func TestMeleeAllNumericTerminates(t *testing.T) {
+func TestShuffleAllNumericTerminates(t *testing.T) {
 	input := "123456789012"
-	melee, err := Melee(input)
+	shuffled, err := Shuffle(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if utf8.RuneCountInString(melee) != utf8.RuneCountInString(input) {
-		t.Fatalf("Melee(%q) length = %d; want %d", input, utf8.RuneCountInString(melee), utf8.RuneCountInString(input))
+	if utf8.RuneCountInString(shuffled) != utf8.RuneCountInString(input) {
+		t.Fatalf("Shuffle(%q) length = %d; want %d", input, utf8.RuneCountInString(shuffled), utf8.RuneCountInString(input))
 	}
 }
 
-func TestPickCryptoRejectsEmptyPool(t *testing.T) {
-	if got, err := PickCrypto(1, ""); err == nil {
-		t.Fatalf("PickCrypto(1, \"\") = %q, nil; want error", got)
+func TestPickRandomRejectsEmptyPool(t *testing.T) {
+	if got, err := PickRandom(1, ""); err == nil {
+		t.Fatalf("PickRandom(1, \"\") = %q, nil; want error", got)
+	}
+}
+
+func TestPickRandomRejectsNegativeLength(t *testing.T) {
+	if got, err := PickRandom(-1, NumericPool); err == nil {
+		t.Fatalf("PickRandom(-1, NumericPool) = %q, nil; want error", got)
+	}
+}
+
+func TestIsPasswordTooLong(t *testing.T) {
+	if IsPasswordTooLong(MaxPasswordLength) {
+		t.Fatalf("IsPasswordTooLong(%d) = true; want false", MaxPasswordLength)
+	}
+	if !IsPasswordTooLong(MaxPasswordLength + 1) {
+		t.Fatalf("IsPasswordTooLong(%d) = false; want true", MaxPasswordLength+1)
 	}
 }
 
@@ -145,12 +160,27 @@ func TestGeneratePasswordRejectsInvalidPolicy(t *testing.T) {
 	}
 }
 
-func TestDefaultPasswordGenerator(t *testing.T) {
-	password, err := DefaultPasswordGenerator()
+func TestDefaultPassword(t *testing.T) {
+	password, err := DefaultPassword()
 	if err != nil {
 		t.Fatal(err)
 	}
 	if utf8.RuneCountInString(password) != MinPasswordLength {
-		t.Fatalf("DefaultPasswordGenerator length = %d; want %d", utf8.RuneCountInString(password), MinPasswordLength)
+		t.Fatalf("DefaultPassword length = %d; want %d", utf8.RuneCountInString(password), MinPasswordLength)
+	}
+}
+
+func TestDeprecatedCompatibilityWrappers(t *testing.T) {
+	if _, err := Melee("S0n0B1sKu3D0!!"); err != nil {
+		t.Fatalf("Melee compatibility wrapper returned error: %v", err)
+	}
+	if got, err := PickCrypto(4, NumericPool); err != nil || utf8.RuneCountInString(got) != 4 {
+		t.Fatalf("PickCrypto compatibility wrapper = %q, %v; want 4 runes, nil", got, err)
+	}
+	if _, err := DefaultPasswordGenerator(); err != nil {
+		t.Fatalf("DefaultPasswordGenerator compatibility wrapper returned error: %v", err)
+	}
+	if !Ispwdtoolong(MaxPasswordLength + 1) {
+		t.Fatal("Ispwdtoolong compatibility wrapper = false; want true")
 	}
 }

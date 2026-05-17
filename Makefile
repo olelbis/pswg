@@ -46,6 +46,9 @@ release-archives:
 	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o $(DIST_DIR)/$(APP).exe .
 	tar -C $(DIST_DIR) -czf $(DIST_DIR)/$(APP)_$(VERSION)_windows_amd64.tar.gz $(APP).exe
 	rm $(DIST_DIR)/$(APP).exe
+	CGO_ENABLED=0 GOOS=windows GOARCH=arm64 go build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o $(DIST_DIR)/$(APP).exe .
+	tar -C $(DIST_DIR) -czf $(DIST_DIR)/$(APP)_$(VERSION)_windows_arm64.tar.gz $(APP).exe
+	rm $(DIST_DIR)/$(APP).exe
 
 packages:
 	mkdir -p $(DIST_DIR) $(BUILD_DIR)/package

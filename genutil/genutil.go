@@ -79,12 +79,12 @@ func (p Policy) Validate() error {
 	return nil
 }
 
-// Melee returns pwdin with its runes shuffled using crypto/rand.
-func Melee(pwdin string) (string, error) {
-	if utf8.RuneCountInString(pwdin) < MinPasswordLength {
+// Shuffle returns password with its runes shuffled using crypto/rand.
+func Shuffle(password string) (string, error) {
+	if utf8.RuneCountInString(password) < MinPasswordLength {
 		return "", errors.New("password is shorter than minimum length")
 	}
-	r := []rune(pwdin)
+	r := []rune(password)
 
 	for i := len(r) - 1; i > 0; i-- {
 		j, err := cryptoInt(i + 1)
@@ -106,37 +106,58 @@ func Melee(pwdin string) (string, error) {
 	return string(r), nil
 }
 
-func Ispwdtoolong(passwordlenght int) bool {
-	return passwordlenght > MaxPasswordLength
+// Deprecated: use Shuffle.
+func Melee(pwdin string) (string, error) {
+	return Shuffle(pwdin)
 }
 
-// PickCrypto : return random string of lenght L extract it form  K (crypto/random)
-func PickCrypto(lenght int, keyrandom string) (string, error) {
-	if lenght < 0 {
+// IsPasswordTooLong reports whether length is above MaxPasswordLength.
+func IsPasswordTooLong(length int) bool {
+	return length > MaxPasswordLength
+}
+
+// Deprecated: use IsPasswordTooLong.
+func Ispwdtoolong(passwordlenght int) bool {
+	return IsPasswordTooLong(passwordlenght)
+}
+
+// PickRandom returns a random string of length characters sampled from pool.
+func PickRandom(length int, pool string) (string, error) {
+	if length < 0 {
 		return "", errors.New("length cannot be negative")
 	}
 
-	keyrandomLength := utf8.RuneCountInString(keyrandom)
-	if keyrandomLength == 0 {
-		return "", errors.New("keyrandom cannot be empty")
+	poolLength := utf8.RuneCountInString(pool)
+	if poolLength == 0 {
+		return "", errors.New("pool cannot be empty")
 	}
 
 	var ret strings.Builder
-	ret.Grow(lenght)
-	keyrandomRunes := []rune(keyrandom)
-	for i := 1; i <= lenght; i++ {
-		result, err := cryptoInt(keyrandomLength)
+	ret.Grow(length)
+	poolRunes := []rune(pool)
+	for i := 1; i <= length; i++ {
+		result, err := cryptoInt(poolLength)
 		if err != nil {
 			return "", err
 		}
-		ret.WriteRune(keyrandomRunes[result])
+		ret.WriteRune(poolRunes[result])
 	}
 	return ret.String(), nil
 }
 
-// DefaultPasswordGenerator returns a random password using the default policy.
-func DefaultPasswordGenerator() (string, error) {
+// Deprecated: use PickRandom.
+func PickCrypto(lenght int, keyrandom string) (string, error) {
+	return PickRandom(lenght, keyrandom)
+}
+
+// DefaultPassword returns a random password using the default policy.
+func DefaultPassword() (string, error) {
 	return Generate(DefaultPolicy())
+}
+
+// Deprecated: use DefaultPassword.
+func DefaultPasswordGenerator() (string, error) {
+	return DefaultPassword()
 }
 
 // GeneratePassword returns a random password using the requested composition.
@@ -155,24 +176,24 @@ func Generate(policy Policy) (string, error) {
 		return "", err
 	}
 
-	numericPart, err := PickCrypto(policy.Numeric, NumericPool)
+	numericPart, err := PickRandom(policy.Numeric, NumericPool)
 	if err != nil {
 		return "", err
 	}
-	lowercasePart, err := PickCrypto(policy.lowercase(), AlphanumericPool)
+	lowercasePart, err := PickRandom(policy.lowercase(), AlphanumericPool)
 	if err != nil {
 		return "", err
 	}
-	uppercasePart, err := PickCrypto(policy.Uppercase, strings.ToUpper(AlphanumericPool))
+	uppercasePart, err := PickRandom(policy.Uppercase, strings.ToUpper(AlphanumericPool))
 	if err != nil {
 		return "", err
 	}
-	specialPart, err := PickCrypto(policy.Special, policy.specialPool())
+	specialPart, err := PickRandom(policy.Special, policy.specialPool())
 	if err != nil {
 		return "", err
 	}
 
-	return Melee(numericPart + lowercasePart + uppercasePart + specialPart)
+	return Shuffle(numericPart + lowercasePart + uppercasePart + specialPart)
 }
 
 func cryptoInt(max int) (int, error) {
