@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-### [0.4-alpha] - 2026-05-17
+### [0.4.0-alpha] - 2026-05-17
 #### Added
 > Added a clearer README with badges, installation instructions, usage examples, and experimental status.
 >

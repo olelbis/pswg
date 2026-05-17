@@ -14,7 +14,7 @@ It uses `crypto/rand` for character selection and shuffling, keeps the generated
 ## Install
 
 ```sh
-go install github.com/olelbis/pswg@v0.4-alpha
+go install github.com/olelbis/pswg@v0.4.0-alpha
 ```
 
 ## Usage
