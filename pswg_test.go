@@ -123,3 +123,22 @@ func TestRunVersionRejectsExtraArgs(t *testing.T) {
 		t.Fatalf("stderr = %q; want unexpected argument error", stderr.String())
 	}
 }
+
+func TestRunShellSafeFlag(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+
+	code := run([]string{"-l", "16", "-s", "8", "-safe"}, &stdout, &stderr)
+	if code != 0 {
+		t.Fatalf("run(-safe) exit code = %d; want 0", code)
+	}
+	if stderr.Len() != 0 {
+		t.Fatalf("stderr = %q; want empty", stderr.String())
+	}
+
+	password := strings.TrimSpace(stdout.String())
+	for _, r := range password {
+		if strings.ContainsRune(genutil.SpecialCharPool, r) && !strings.ContainsRune(genutil.ShellSafeSpecialCharPool, r) {
+			t.Fatalf("password %q contains non-shell-safe special rune %q", password, r)
+		}
+	}
+}

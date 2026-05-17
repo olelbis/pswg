@@ -36,10 +36,11 @@ func run(args []string, stdout, stderr io.Writer) int {
 	uppercase := flags.Int("u", genutil.MinUpChar, "number of uppercase characters")
 	special := flags.Int("s", genutil.MinSpecChar, "number of special characters")
 	numeric := flags.Int("n", genutil.MinNumChar, "number of numeric characters")
+	safe := flags.Bool("safe", false, "use shell-safe special characters")
 	showVersion := flags.Bool("version", false, "print version")
 	flags.Usage = func() {
 		fmt.Fprintf(stderr, `Usage:
-	%s [-l length] [-u uppercase] [-s special] [-n numeric]
+	%s [-l length] [-u uppercase] [-s special] [-n numeric] [-safe]
 	%s -version
 
 Options:
@@ -76,6 +77,7 @@ Options:
 		Uppercase: *uppercase,
 		Special:   *special,
 		Numeric:   *numeric,
+		ShellSafe: *safe,
 	}, stdout, stderr)
 }
 

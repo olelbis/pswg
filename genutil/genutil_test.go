@@ -49,6 +49,17 @@ func TestSpecialCharPoolIsASCII(t *testing.T) {
 	}
 }
 
+func TestShellSafeSpecialCharPool(t *testing.T) {
+	for _, r := range ShellSafeSpecialCharPool {
+		if r > unicode.MaxASCII {
+			t.Fatalf("ShellSafeSpecialCharPool contains non-ASCII rune %q", r)
+		}
+		if strings.ContainsRune("!#$&'()*;<>?[\\]`{|}~ \"\n\t-", r) {
+			t.Fatalf("ShellSafeSpecialCharPool contains shell-risky rune %q", r)
+		}
+	}
+}
+
 func TestGeneratePasswordUsesRequestedLength(t *testing.T) {
 	password, err := GeneratePassword(16, 2, 2, 2)
 	if err != nil {
@@ -86,6 +97,19 @@ func TestGeneratePasswordUsesRequestedComposition(t *testing.T) {
 
 	if uppercase != 2 || special != 3 || numeric != 4 || lowercase != 7 {
 		t.Fatalf("composition uppercase=%d special=%d numeric=%d lowercase=%d; want 2, 3, 4, 7", uppercase, special, numeric, lowercase)
+	}
+}
+
+func TestGeneratePasswordCanUseShellSafeSpecials(t *testing.T) {
+	password, err := Generate(Policy{Length: 16, Uppercase: 2, Special: 4, Numeric: 2, ShellSafe: true})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, r := range password {
+		if strings.ContainsRune(SpecialCharPool, r) && !strings.ContainsRune(ShellSafeSpecialCharPool, r) {
+			t.Fatalf("password %q contains non-shell-safe special rune %q", password, r)
+		}
 	}
 }
 

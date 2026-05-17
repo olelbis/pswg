@@ -21,9 +21,10 @@ const (
 	// Deprecated: use MaxPasswordLength.
 	Maxpwdlenght = MaxPasswordLength
 
-	NumericPool      = "1234567890"
-	AlphanumericPool = "abcdefghijklmnopqrstuvwxyz"
-	SpecialCharPool  = "!&%$=?^+*][{}-_.:,;()><"
+	NumericPool              = "1234567890"
+	AlphanumericPool         = "abcdefghijklmnopqrstuvwxyz"
+	SpecialCharPool          = "!&%$=?^+*][{}-_.:,;()><"
+	ShellSafeSpecialCharPool = "@_:,."
 
 	MinUpChar    = 1
 	MinAlphaChar = 9
@@ -37,6 +38,7 @@ type Policy struct {
 	Uppercase int
 	Special   int
 	Numeric   int
+	ShellSafe bool
 }
 
 // DefaultPolicy returns the default password policy.
@@ -51,6 +53,13 @@ func DefaultPolicy() Policy {
 
 func (p Policy) lowercase() int {
 	return p.Length - p.Uppercase - p.Special - p.Numeric
+}
+
+func (p Policy) specialPool() string {
+	if p.ShellSafe {
+		return ShellSafeSpecialCharPool
+	}
+	return SpecialCharPool
 }
 
 // Validate checks that a policy can be used to generate a password.
@@ -158,7 +167,7 @@ func Generate(policy Policy) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	specialPart, err := PickCrypto(policy.Special, SpecialCharPool)
+	specialPart, err := PickCrypto(policy.Special, policy.specialPool())
 	if err != nil {
 		return "", err
 	}

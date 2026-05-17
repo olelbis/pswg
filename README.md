@@ -27,6 +27,12 @@ Generate a 16-character password with 2 uppercase letters, 2 special characters,
 pswg -l 16 -u 2 -s 2 -n 2
 ```
 
+Generate a password with shell-safe special characters:
+
+```sh
+pswg -safe
+```
+
 Show version and help:
 
 ```sh
@@ -36,7 +42,7 @@ pswg -h
 
 ## Documentation
 
-Read the [user manual](docs/user-manual.md) for all flags, valid combinations, invalid examples, exit codes, character sets, and build commands.
+Read the [user manual](docs/user-manual.md) for all flags, valid combinations, shell usage, invalid examples, exit codes, character sets, and build commands.
 
 ## Build
 

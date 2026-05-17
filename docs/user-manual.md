@@ -7,7 +7,7 @@
 Generate a password:
 
 ```sh
-pswg [flags]
+pswg [generation flags]
 ```
 
 Show version information:
@@ -32,6 +32,7 @@ Generation flags can be used in any order and any subset.
 | `-u int` | Number of uppercase letters | `1` | `0` to `-l` |
 | `-s int` | Number of special characters | `1` | `0` to `-l` |
 | `-n int` | Number of numeric characters | `1` | `0` to `-l` |
+| `-safe` | Use shell-safe special characters | `false` | boolean |
 
 The generated password length is exactly `-l`. After `-u`, `-s`, and `-n` are applied, all remaining characters are lowercase letters.
 
@@ -40,6 +41,8 @@ The effective default policy is:
 ```text
 -l 12 -u 1 -s 1 -n 1
 ```
+
+`-safe` changes only the special-character pool. It does not change length or character counts.
 
 ## Valid Combinations
 
@@ -73,6 +76,13 @@ Set a full custom policy:
 pswg -l 32 -n 8 -u 4 -s 4
 ```
 
+Use shell-safe special characters:
+
+```sh
+pswg -safe
+pswg -l 24 -u 4 -s 4 -n 4 -safe
+```
+
 Generate a password made only of uppercase letters:
 
 ```sh
@@ -98,6 +108,40 @@ Generation succeeds only when all rules are true:
 `-version` is informational and cannot be combined with generation flags or positional arguments.
 
 `pswg` does not accept positional arguments.
+
+## Shell Usage
+
+By default, `pswg` can generate shell metacharacters such as `*`, `?`, `[`, `]`, `$`, `&`, `;`, `<`, and `>`.
+
+That is fine when the password is quoted. In scripts, prefer this pattern:
+
+```sh
+password="$(pswg)"
+some-command --password "$password"
+```
+
+Avoid unquoted command substitution:
+
+```sh
+some-command --password $(pswg)
+```
+
+Unquoted command substitution can trigger shell behavior such as pathname expansion for characters like `*`, `?`, and `[`. The shell parses operators before expansion, so not every metacharacter becomes syntax, but unquoted passwords are still fragile and should be avoided.
+
+If you need a password that is safer for unquoted shell usage, use `-safe`:
+
+```sh
+password="$(pswg -safe)"
+some-command --password "$password"
+```
+
+`-safe` uses this special-character pool:
+
+```text
+@_:,.
+```
+
+Even with `-safe`, quoting variables is still the recommended shell practice.
 
 ## Invalid Examples
 
@@ -163,6 +207,7 @@ Errors are written to stderr and exit with code `2`.
 | Uppercase | `ABCDEFGHIJKLMNOPQRSTUVWXYZ` |
 | Numeric | `1234567890` |
 | Special | `!&%$=?^+*][{}-_.:,;()><` |
+| Shell-safe special | `@_:,.` |
 
 Special characters are printable ASCII for broad compatibility.
 

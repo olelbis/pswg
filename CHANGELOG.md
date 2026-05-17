@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.4] - 2026-05-17
+#### Added
+> Added `-safe` to generate passwords using shell-safe special characters.
+>
+> Documented safe shell usage, command substitution quoting, and shell-safe character sets.
+
+---
+
 ### [1.0.3] - 2026-05-17
 #### Added
 > Added a pixel art logo.
