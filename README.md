@@ -11,11 +11,13 @@ It uses `crypto/rand` for character selection and shuffling, keeps the generated
 
 ## Usage
 
-Generate a password with the default policy. The password is printed by itself on stdout, so it can be used in scripts:
+Generate a password with the default policy:
 
 ```sh
 pswg
 ```
+
+The password is printed by itself on stdout, so it can be used in scripts.
 
 Generate a 16-character password with 2 uppercase letters, 2 special characters, and 2 numbers:
 
@@ -29,20 +31,64 @@ Print the current version:
 pswg -version
 ```
 
+Print help:
+
+```sh
+pswg -h
+```
+
 ## Options
 
 ```text
 -l int
-    Password length. Default: 12. Maximum: 128.
+    Password length. Default: 12. Valid range: 12-128.
 -u int
-    Number of uppercase characters. Default: 1.
+    Number of uppercase characters. Default: 1. Valid range: 0-length.
 -s int
-    Number of special characters. Default: 1.
+    Number of special characters. Default: 1. Valid range: 0-length.
 -n int
-    Number of numeric characters. Default: 1.
+    Number of numeric characters. Default: 1. Valid range: 0-length.
 -version
-    Print the current version.
+    Print the current version. Cannot be combined with generation flags.
 ```
+
+## Flag Combinations
+
+Generation flags can be used in any order and any subset:
+
+```sh
+pswg -l 24
+pswg -u 4 -s 4
+pswg -n 0 -s 0
+pswg -l 32 -n 8 -u 4 -s 4
+```
+
+The generated password length is exactly `-l`. The remaining characters after uppercase, special, and numeric requirements are lowercase letters.
+
+Valid generation rules:
+
+- `12 <= -l <= 128`
+- `-u >= 0`
+- `-s >= 0`
+- `-n >= 0`
+- `-u + -s + -n <= -l`
+
+Invalid combinations fail with exit code `2`:
+
+```sh
+pswg -l 11
+pswg -l 129
+pswg -l 12 -u 13
+pswg -u -1
+pswg -version -l 16
+pswg -version extra
+pswg extra
+```
+
+Exit codes:
+
+- `0`: password, help, or version printed successfully.
+- `2`: invalid flags, arguments, or password policy.
 
 ## Build
 

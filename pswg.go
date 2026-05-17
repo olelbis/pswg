@@ -53,17 +53,22 @@ Options:
 		}
 		return 2
 	}
+	if flags.NArg() > 0 {
+		fmt.Fprintln(stderr, "ERROR: unexpected argument:", flags.Arg(0))
+		flags.Usage()
+		return 2
+	}
 	if *showVersion {
+		if flags.NFlag() > 1 {
+			fmt.Fprintln(stderr, "ERROR: -version cannot be combined with password generation flags")
+			flags.Usage()
+			return 2
+		}
 		fmt.Fprintf(stdout, "%s %s\n", exec, displayVersion())
 		if commit != "unknown" || date != "unknown" {
 			fmt.Fprintf(stdout, "commit %s\nbuilt %s\n", commit, date)
 		}
 		return 0
-	}
-	if flags.NArg() > 0 {
-		fmt.Fprintln(stderr, "ERROR: unexpected argument:", flags.Arg(0))
-		flags.Usage()
-		return 2
 	}
 
 	return generate(genutil.Policy{

@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.2] - 2026-05-17
+#### Changed
+> Documented supported flag combinations, validation rules, invalid examples, and exit codes.
+#### Fixed
+> `-version` now rejects extra arguments and generation flags instead of ignoring them.
+
+---
+
 ### [1.0.1] - 2026-05-17
 #### Changed
 > Updated GitHub Actions to Node 24-compatible action versions.

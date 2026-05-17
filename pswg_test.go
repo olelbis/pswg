@@ -93,3 +93,33 @@ func TestRunVersionUsesInjectedVersion(t *testing.T) {
 		t.Fatalf("stdout = %q; want version", got)
 	}
 }
+
+func TestRunVersionRejectsGenerationFlags(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+
+	code := run([]string{"-version", "-l", "16"}, &stdout, &stderr)
+	if code != 2 {
+		t.Fatalf("run(-version -l 16) exit code = %d; want 2", code)
+	}
+	if stdout.Len() != 0 {
+		t.Fatalf("stdout = %q; want empty", stdout.String())
+	}
+	if !strings.Contains(stderr.String(), "cannot be combined") {
+		t.Fatalf("stderr = %q; want combination error", stderr.String())
+	}
+}
+
+func TestRunVersionRejectsExtraArgs(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+
+	code := run([]string{"-version", "extra"}, &stdout, &stderr)
+	if code != 2 {
+		t.Fatalf("run(-version extra) exit code = %d; want 2", code)
+	}
+	if stdout.Len() != 0 {
+		t.Fatalf("stdout = %q; want empty", stdout.String())
+	}
+	if !strings.Contains(stderr.String(), "unexpected argument") {
+		t.Fatalf("stderr = %q; want unexpected argument error", stderr.String())
+	}
+}
