@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.5] - 2026-05-17
+#### Added
+> Added a pswg(1) man page.
+>
+> Added nFPM configuration for Debian and RPM packages.
+>
+> Added Linux arm64 release archives and Linux deb/rpm packages to release builds.
+#### Changed
+> Updated the release workflow to install nFPM and publish package artifacts alongside tarballs and checksums.
+
+---
+
 ### [1.0.4] - 2026-05-17
 #### Added
 > Added `-safe` to generate passwords using shell-safe special characters.

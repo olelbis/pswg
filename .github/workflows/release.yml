@@ -21,6 +21,11 @@ jobs:
         with:
           go-version-file: go.mod
 
+      - name: Install nFPM
+        run: |
+          go install github.com/goreleaser/nfpm/v2/cmd/nfpm@v2.46.3
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+
       - name: Build release artifacts
         run: make release VERSION="${GITHUB_REF_NAME}"
 

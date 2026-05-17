@@ -1,0 +1,144 @@
+.Dd May 17, 2026
+.Dt PSWG 1
+.Os
+.Sh NAME
+.Nm pswg
+.Nd password generator CLI
+.Sh SYNOPSIS
+.Nm
+.Op Fl l Ar length
+.Op Fl u Ar uppercase
+.Op Fl s Ar special
+.Op Fl n Ar numeric
+.Op Fl safe
+.Nm
+.Fl version
+.Nm
+.Fl h
+.Sh DESCRIPTION
+.Nm
+generates passwords from explicit composition rules.
+It writes only the generated password to standard output,
+which makes it suitable for scripts and command substitution.
+.Pp
+The default policy is equivalent to:
+.Bd -literal -offset indent
+pswg -l 12 -u 1 -s 1 -n 1
+.Ed
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Fl l Ar length
+Set total password length.
+The default is 12.
+The valid range is 12 to 128.
+.It Fl u Ar uppercase
+Set the number of uppercase letters.
+The default is 1.
+The value must be non-negative.
+.It Fl s Ar special
+Set the number of special characters.
+The default is 1.
+The value must be non-negative.
+.It Fl n Ar numeric
+Set the number of numeric characters.
+The default is 1.
+The value must be non-negative.
+.It Fl safe
+Use shell-safe special characters.
+This changes only the special-character pool.
+It does not change length or character counts.
+.It Fl version
+Print version information.
+This option cannot be combined with generation flags or positional arguments.
+.It Fl h
+Print help.
+.El
+.Sh VALIDATION
+Generation succeeds only when all rules are true:
+.Bl -bullet
+.It
+length is between 12 and 128.
+.It
+uppercase, special, and numeric counts are non-negative.
+.It
+uppercase + special + numeric is less than or equal to length.
+.El
+.Pp
+.Nm
+does not accept positional arguments.
+.Sh EXIT STATUS
+.Bl -tag -width Ds
+.It 0
+Password, help, or version printed successfully.
+.It 2
+Invalid flags, arguments, or password policy.
+.El
+.Sh EXAMPLES
+Generate a password with the default policy:
+.Bd -literal -offset indent
+pswg
+.Ed
+.Pp
+Generate a 24-character password:
+.Bd -literal -offset indent
+pswg -l 24
+.Ed
+.Pp
+Generate a 32-character password with a custom composition:
+.Bd -literal -offset indent
+pswg -l 32 -n 8 -u 4 -s 4
+.Ed
+.Pp
+Generate a password using shell-safe special characters:
+.Bd -literal -offset indent
+pswg -safe
+.Ed
+.Pp
+Print version information:
+.Bd -literal -offset indent
+pswg -version
+.Ed
+.Sh SHELL USAGE
+The default special-character pool can produce shell metacharacters,
+including:
+.Bd -literal -offset indent
+* ? [ ] $ & ; < >
+.Ed
+.Pp
+In scripts, quote command substitution and variables:
+.Bd -literal -offset indent
+password="$(pswg)"
+some-command --password "$password"
+.Ed
+.Pp
+Avoid unquoted command substitution:
+.Bd -literal -offset indent
+some-command --password $(pswg)
+.Ed
+.Pp
+For safer unquoted shell use, pass
+.Fl safe
+:
+.Bd -literal -offset indent
+password="$(pswg -safe)"
+some-command --password "$password"
+.Ed
+.Pp
+Even with
+.Fl safe
+, quoting variables is still recommended.
+.Sh CHARACTER SETS
+.Bl -tag -width Ds
+.It Lowercase
+abcdefghijklmnopqrstuvwxyz
+.It Uppercase
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+.It Numeric
+1234567890
+.It Special
+!&%$=?^+*][{}-_.:,;()><
+.It Shell-safe special
+@_:,.
+.El
+.Sh AUTHORS
+.An olelbis

@@ -224,12 +224,37 @@ make check
 Build a local binary:
 
 ```sh
-make build VERSION=v1.0.3
+make build VERSION=v1.0.5
 ./build/pswg -version
 ```
 
-Build release archives with checksums:
+Build release archives, Linux packages, and checksums:
 
 ```sh
-make release VERSION=v1.0.3
+make release VERSION=v1.0.5
 ```
+
+`make release` produces:
+
+- `.tar.gz` archives for supported operating systems and architectures
+- `.deb` packages for Linux
+- `.rpm` packages for Linux
+- `SHA256SUMS`
+
+Package builds require `nfpm`.
+
+The release workflow installs `nfpm` automatically. For local package builds, install it with:
+
+```sh
+go install github.com/goreleaser/nfpm/v2/cmd/nfpm@v2.46.3
+```
+
+## Installed Files In Linux Packages
+
+The `.deb` and `.rpm` packages install:
+
+| Source | Destination |
+| --- | --- |
+| `pswg` | `/usr/bin/pswg` |
+| `docs/pswg.1` | `/usr/share/man/man1/pswg.1` |
+| `LICENSE` | `/usr/share/doc/pswg/LICENSE` |

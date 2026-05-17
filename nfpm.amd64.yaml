@@ -1,0 +1,25 @@
+name: pswg
+arch: amd64
+platform: linux
+version: ${VERSION}
+release: "1"
+section: utils
+priority: optional
+maintainer: olelbis
+description: Password generator CLI written in Go.
+vendor: olelbis
+homepage: https://github.com/olelbis/pswg
+license: MIT
+contents:
+  - src: ./build/package/pswg
+    dst: /usr/bin/pswg
+    file_info:
+      mode: 0755
+  - src: ./docs/pswg.1
+    dst: /usr/share/man/man1/pswg.1
+    file_info:
+      mode: 0644
+  - src: ./LICENSE
+    dst: /usr/share/doc/pswg/LICENSE
+    file_info:
+      mode: 0644
