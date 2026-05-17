@@ -45,20 +45,13 @@ pswg -h
 
 Project page: [olelbis.github.io/pswg](https://olelbis.github.io/pswg/)
 
-Read the [user manual](docs/user-manual.md) for all flags, valid combinations, shell usage, security model, invalid examples, exit codes, character sets, packaging, and build commands.
+Read the [user manual](docs/user-manual.md) for all flags, valid combinations, shell usage, security model, exit codes, character sets, packaging, and build commands.
 
 Additional project docs:
 
 - [Security policy](SECURITY.md)
 - [Security review checklist](docs/security-review.md)
 - [Distribution notes](docs/distribution.md)
-
-## Build
-
-```sh
-make check
-make build VERSION=v1.0.8
-```
 
 ## License
 
