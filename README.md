@@ -55,14 +55,14 @@ make check
 Build a local binary:
 
 ```sh
-make build VERSION=v1.0.0
+make build VERSION=v1.0.1
 ./build/pswg -version
 ```
 
 Build release archives with checksums:
 
 ```sh
-make release VERSION=v1.0.0
+make release VERSION=v1.0.1
 ```
 
 Pushing a `v*` tag runs the release workflow and publishes the generated archives plus `SHA256SUMS` to GitHub Releases.

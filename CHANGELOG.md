@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.1] - 2026-05-17
+#### Changed
+> Updated GitHub Actions to Node 24-compatible action versions.
+>
+> Removed unnecessary Go dependency caching from workflows because this project has no external modules.
+
+---
+
 ### [1.0.0] - 2026-05-17
 #### Added
 > Added release archives with SHA-256 checksums through `make release`.
