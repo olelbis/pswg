@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.9] - 2026-05-18
+#### Added
+> Added a GitHub Pages project site with usage examples, release downloads, verification commands, and documentation links.
+>
+> Added a GitHub Pages deployment workflow.
+#### Changed
+> Added the project page link and Pages workflow badge to the README.
+
+---
+
 ### [1.0.8] - 2026-05-17
 #### Changed
 > Updated GitHub Actions checkout usage to `actions/checkout@v6`.

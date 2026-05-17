@@ -6,6 +6,7 @@
 
 [![Go Version](https://img.shields.io/github/go-mod/go-version/olelbis/pswg)](https://github.com/olelbis/pswg/blob/main/go.mod)
 [![CI](https://github.com/olelbis/pswg/actions/workflows/ci.yml/badge.svg)](https://github.com/olelbis/pswg/actions/workflows/ci.yml)
+[![Pages](https://github.com/olelbis/pswg/actions/workflows/pages.yml/badge.svg)](https://github.com/olelbis/pswg/actions/workflows/pages.yml)
 [![Version](https://img.shields.io/github/v/tag/olelbis/pswg?label=version)](https://github.com/olelbis/pswg/tags)
 [![License: MIT](https://img.shields.io/github/license/olelbis/pswg)](https://github.com/olelbis/pswg/blob/main/LICENSE)
 
@@ -42,6 +43,8 @@ pswg -h
 
 ## Documentation
 
+Project page: [olelbis.github.io/pswg](https://olelbis.github.io/pswg/)
+
 Read the [user manual](docs/user-manual.md) for all flags, valid combinations, shell usage, security model, invalid examples, exit codes, character sets, packaging, and build commands.
 
 Additional project docs:
@@ -54,7 +57,7 @@ Additional project docs:
 
 ```sh
 make check
-make build VERSION=v1.0.7
+make build VERSION=v1.0.8
 ```
 
 ## License
