@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.0.3] - 2026-05-17
+#### Added
+> Added a pixel art logo.
+>
+> Added a user manual covering all flags, valid combinations, invalid examples, exit codes, character sets, and build commands.
+#### Changed
+> Reduced the README to a concise project overview, quick start, documentation link, and build entry point.
+
+---
+
 ### [1.0.2] - 2026-05-17
 #### Changed
 > Documented supported flag combinations, validation rules, invalid examples, and exit codes.
