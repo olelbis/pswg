@@ -5,9 +5,11 @@
 # pswg
 
 [![Go Version](https://img.shields.io/github/go-mod/go-version/olelbis/pswg)](https://github.com/olelbis/pswg/blob/main/go.mod)
+[![Go Reference](https://pkg.go.dev/badge/github.com/olelbis/pswg/genutil.svg)](https://pkg.go.dev/github.com/olelbis/pswg/genutil)
 [![CI](https://github.com/olelbis/pswg/actions/workflows/ci.yml/badge.svg)](https://github.com/olelbis/pswg/actions/workflows/ci.yml)
+[![Release](https://github.com/olelbis/pswg/actions/workflows/release.yml/badge.svg)](https://github.com/olelbis/pswg/actions/workflows/release.yml)
 [![Pages](https://github.com/olelbis/pswg/actions/workflows/pages.yml/badge.svg)](https://github.com/olelbis/pswg/actions/workflows/pages.yml)
-[![Version](https://img.shields.io/github/v/tag/olelbis/pswg?label=version)](https://github.com/olelbis/pswg/tags)
+[![Latest Release](https://img.shields.io/github/v/release/olelbis/pswg)](https://github.com/olelbis/pswg/releases/latest)
 [![License: MIT](https://img.shields.io/github/license/olelbis/pswg)](https://github.com/olelbis/pswg/blob/main/LICENSE)
 
 `pswg` is a small password generator CLI written in Go.
