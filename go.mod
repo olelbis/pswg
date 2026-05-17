@@ -1,3 +1,3 @@
-module passgen
+module github.com/olelbis/pswg
 
-go 1.21.0
+go 1.26.3

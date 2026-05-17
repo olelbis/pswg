@@ -1,5 +1,24 @@
 # Change Log
 All notable changes to this project will be documented in this file.
+
+### [0.4-alpha] - 2026-05-17
+#### Added
+> Added a clearer README with badges, installation instructions, usage examples, and experimental status.
+>
+> Added a `-version` flag.
+#### Changed
+> Aligned the Go module with `github.com/olelbis/pswg` and Go 1.26.3.
+>
+> Reworked CLI parsing using the standard `flag` package.
+>
+> Updated password generation to propagate crypto errors and use crypto-backed shuffling.
+#### Fixed
+> Fixed the failing test contract for short passwords.
+>
+> Fixed a possible infinite shuffle loop when generated passwords contained only numeric characters.
+
+---
+
 ### [0.1.3.2] - 2022-09-12
 #### Added
 > Another long hiatus doing few test with 1.19
