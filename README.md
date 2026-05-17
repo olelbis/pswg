@@ -1,6 +1,7 @@
 # pswg
 
 [![Go Version](https://img.shields.io/github/go-mod/go-version/olelbis/pswg)](https://github.com/olelbis/pswg/blob/main/go.mod)
+[![CI](https://github.com/olelbis/pswg/actions/workflows/ci.yml/badge.svg)](https://github.com/olelbis/pswg/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/github/v/tag/olelbis/pswg?include_prereleases&label=version)](https://github.com/olelbis/pswg/tags)
 [![License: MIT](https://img.shields.io/github/license/olelbis/pswg)](https://github.com/olelbis/pswg/blob/main/LICENSE)
 [![Status: experimental](https://img.shields.io/badge/status-experimental-orange)](https://github.com/olelbis/pswg)
@@ -14,12 +15,12 @@ It uses `crypto/rand` for character selection and shuffling, keeps the generated
 ## Install
 
 ```sh
-go install github.com/olelbis/pswg@v0.4.0-alpha
+go install github.com/olelbis/pswg@v0.5.0-alpha
 ```
 
 ## Usage
 
-Generate a password with the default policy:
+Generate a password with the default policy. The password is printed by itself on stdout, so it can be used in scripts:
 
 ```sh
 pswg
@@ -54,10 +55,32 @@ pswg -version
     Print the current version.
 ```
 
+## Build
+
+Run the full local check:
+
+```sh
+make check
+```
+
+Build a local binary with version metadata:
+
+```sh
+make build
+./bin/pswg -version
+```
+
+Build release-style binaries for supported targets:
+
+```sh
+make dist
+```
+
 ## Notes
 
 - Minimum password length is 12 characters.
-- Requested character counts cannot exceed the password length.
+- Maximum password length is 128 characters.
+- Requested character counts cannot be negative or exceed the password length.
 - When possible, the generated password is shuffled so it does not start with a number.
 
 ## License

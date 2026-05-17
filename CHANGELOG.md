@@ -1,6 +1,24 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [0.5.0-alpha] - 2026-05-17
+#### Added
+> Added a Makefile with check, build, dist, install, and clean targets.
+>
+> Added GitHub Actions CI for formatting, tests, vet, and build.
+>
+> Added CLI tests for default output, help, version, and invalid length handling.
+#### Changed
+> Moved password policy validation into the generator package.
+>
+> Changed default CLI output to print only the generated password on stdout.
+>
+> Changed version reporting to support build-time metadata and Go module build info.
+#### Fixed
+> Fixed silent truncation of password lengths above the maximum.
+
+---
+
 ### [0.4.0-alpha] - 2026-05-17
 #### Added
 > Added a clearer README with badges, installation instructions, usage examples, and experimental status.

@@ -3,6 +3,7 @@ package genutil
 import (
 	"strings"
 	"testing"
+	"unicode"
 	"unicode/utf8"
 )
 
@@ -50,5 +51,74 @@ func TestGeneratePasswordUsesRequestedLength(t *testing.T) {
 	}
 	if !strings.ContainsAny(password, NumericPool) {
 		t.Fatal("GeneratePassword did not include numeric characters")
+	}
+}
+
+func TestGeneratePasswordUsesRequestedComposition(t *testing.T) {
+	password, err := GeneratePassword(16, 2, 3, 4)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var uppercase, special, numeric, lowercase int
+	for _, r := range password {
+		switch {
+		case unicode.IsUpper(r):
+			uppercase++
+		case unicode.IsNumber(r):
+			numeric++
+		case strings.ContainsRune(SpecialCharPool, r):
+			special++
+		case unicode.IsLower(r):
+			lowercase++
+		default:
+			t.Fatalf("unexpected rune %q in password %q", r, password)
+		}
+	}
+
+	if uppercase != 2 || special != 3 || numeric != 4 || lowercase != 7 {
+		t.Fatalf("composition uppercase=%d special=%d numeric=%d lowercase=%d; want 2, 3, 4, 7", uppercase, special, numeric, lowercase)
+	}
+}
+
+func TestGeneratePasswordRejectsInvalidPolicy(t *testing.T) {
+	tests := []struct {
+		name   string
+		policy Policy
+	}{
+		{
+			name:   "too short",
+			policy: Policy{Length: MinPasswordLength - 1, Uppercase: 1, Special: 1, Numeric: 1},
+		},
+		{
+			name:   "too long",
+			policy: Policy{Length: MaxPasswordLength + 1, Uppercase: 1, Special: 1, Numeric: 1},
+		},
+		{
+			name:   "negative count",
+			policy: Policy{Length: MinPasswordLength, Uppercase: -1, Special: 1, Numeric: 1},
+		},
+		{
+			name:   "requirements exceed length",
+			policy: Policy{Length: MinPasswordLength, Uppercase: MinPasswordLength + 1},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got, err := Generate(tt.policy); err == nil {
+				t.Fatalf("Generate(%+v) = %q, nil; want error", tt.policy, got)
+			}
+		})
+	}
+}
+
+func TestDefaultPasswordGenerator(t *testing.T) {
+	password, err := DefaultPasswordGenerator()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if utf8.RuneCountInString(password) != MinPasswordLength {
+		t.Fatalf("DefaultPasswordGenerator length = %d; want %d", utf8.RuneCountInString(password), MinPasswordLength)
 	}
 }

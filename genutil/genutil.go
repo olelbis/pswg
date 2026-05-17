@@ -3,7 +3,6 @@ package genutil
 import (
 	cr "crypto/rand"
 	"errors"
-	"fmt"
 	"math/big"
 	"strings"
 	"unicode"
@@ -11,64 +10,75 @@ import (
 )
 
 const (
-	//Nice try to made a new world full of color... Some sort uf inutility
-	// Ex.
-	//	 \033[ = Escape non printable character
-	//   1;34m = This mean 1 for bold of intensity(SGF) and 34 is for blue (3-4bit) last nbiut not least m is for use SGF
-	//   %s = String Value from printf input
-	//   \033[0m = back to default
-	// More infos at https://en.wikipedia.org/wiki/ANSI_escape_code
-	Infocolor    = "\033[0;32m%s\033[0m"
-	Noticecolor  = "\033[0;36m%s\033[0m"
-	Warningcolor = "\033[1;33m%s\033[0m"
-	Outputcolor  = "\033[44;30m%s\033[0m"
-	Errorcolor   = "\033[1;31m%s\033[0m"
-	Debugcolor   = "\033[0;36m%s\033[0m"
-	//MinPwdLenght Minimum Password Lenght
-	MinPwdLenght int = 12
-	//Maxpwdlenght Maximum Password Lenght
-	Maxpwdlenght int = 128
+	// MinPasswordLength is the minimum generated password length.
+	MinPasswordLength = 12
+	// MaxPasswordLength is the maximum generated password length.
+	MaxPasswordLength = 128
+
+	// Deprecated: use MinPasswordLength.
+	MinPwdLenght = MinPasswordLength
+	// Deprecated: use MaxPasswordLength.
+	Maxpwdlenght = MaxPasswordLength
+
+	NumericPool      = "1234567890"
+	AlphanumericPool = "abcdefghijklmnopqrstuvwxyz"
+	SpecialCharPool  = "!&%$£=?^+*][{}-_.:,;()><"
+
+	MinUpChar    = 1
+	MinAlphaChar = 9
+	MinSpecChar  = 1
+	MinNumChar   = 1
 )
 
-var (
-	//NumericPool numeric string
-	NumericPool string = "1234567890"
-	//AlphanumericPool alphanumeric string
-	AlphanumericPool string = "abcdefghijklmnopqrstuvwxyz"
-	//SpecialCharPool special character string
-	SpecialCharPool string = "!&%$£=?^+*][{}-_.:,;()><"
-	//MinUpChar Uppercase n of char
-	MinUpChar int = 1
-	//MinAlphaChar Aplhanumeric n of char
-	MinAlphaChar int = 9
-	//MinSpecChar Special n of char
-	MinSpecChar int = 1
-	//MinNumChar Numeric n of char
-	MinNumChar   int    = 1
-	UsageMessage string = `Usage:
+var UsageMessage string = `Usage:
 	pswg [-l <Password Length (Default: 12, upper limit 128)>] [-u <N. of Alphanumeric Uppercase>] [-s <N. of Special Char>] [-n <N. of Numeric Char>]
 	pswg -version
 	pswg --silent`
-	//DefautMessage default message
-	DefautMessage string = `
-Default password value used, possible causes: 
--	no option specified
--	wrong number of arguments
 
-Password seed with:
-1 Numeric
-1 Special Char
-1 Alphanumeric Uppercase
-9 Alphanumeric Lovercase
-`
-)
+// Policy describes the composition rules for generated passwords.
+type Policy struct {
+	Length    int
+	Uppercase int
+	Special   int
+	Numeric   int
+}
 
-// Melee : Get a string in input e do some shuffle
+// DefaultPolicy returns the default password policy.
+func DefaultPolicy() Policy {
+	return Policy{
+		Length:    MinPasswordLength,
+		Uppercase: MinUpChar,
+		Special:   MinSpecChar,
+		Numeric:   MinNumChar,
+	}
+}
+
+func (p Policy) lowercase() int {
+	return p.Length - p.Uppercase - p.Special - p.Numeric
+}
+
+// Validate checks that a policy can be used to generate a password.
+func (p Policy) Validate() error {
+	if p.Length < MinPasswordLength {
+		return errors.New("password length is shorter than minimum length")
+	}
+	if p.Length > MaxPasswordLength {
+		return errors.New("password length is longer than maximum length")
+	}
+	if p.Uppercase < 0 || p.Special < 0 || p.Numeric < 0 {
+		return errors.New("character counts cannot be negative")
+	}
+	if p.lowercase() < 0 {
+		return errors.New("character requirements exceed password length")
+	}
+	return nil
+}
+
+// Melee returns pwdin with its runes shuffled using crypto/rand.
 func Melee(pwdin string) (string, error) {
-	if utf8.RuneCountInString(pwdin) < MinPwdLenght {
+	if utf8.RuneCountInString(pwdin) < MinPasswordLength {
 		return "", errors.New("password is shorter than minimum length")
 	}
-	// Transform string to rune
 	r := []rune(pwdin)
 
 	for i := len(r) - 1; i > 0; i-- {
@@ -92,7 +102,7 @@ func Melee(pwdin string) (string, error) {
 }
 
 func Ispwdtoolong(passwordlenght int) bool {
-	return passwordlenght > Maxpwdlenght
+	return passwordlenght > MaxPasswordLength
 }
 
 // PickCrypto : return random string of lenght L extract it form  K (crypto/random)
@@ -106,56 +116,53 @@ func PickCrypto(lenght int, keyrandom string) (string, error) {
 		return "", errors.New("keyrandom cannot be empty")
 	}
 
-	var ret string
+	var ret strings.Builder
+	ret.Grow(lenght)
 	keyrandomRunes := []rune(keyrandom)
-	// yet another "i" loop
 	for i := 1; i <= lenght; i++ {
 		result, err := cryptoInt(keyrandomLength)
 		if err != nil {
 			return "", err
 		}
-		//Use utf8.RuneCountInString to prevent index out of range (panic)
-		//in case of multibyte character
-		ret += string(keyrandomRunes[result])
+		ret.WriteRune(keyrandomRunes[result])
 	}
-	return ret, nil
+	return ret.String(), nil
 }
 
-// DefPick : return random password based on predefined rule
-func DefaultPasswordGenerator() error {
-	// Print usage message
-	fmt.Printf(Infocolor, UsageMessage)
-	// Print defaults message
-	fmt.Printf(Infocolor, DefautMessage)
-	//create raw password
-	raw, err := GeneratePassword(MinPwdLenght, MinUpChar, MinSpecChar, MinNumChar)
-	if err != nil {
-		return err
-	}
-	//print generated password
-	fmt.Println("OUTPUT: " + raw)
-	return nil
+// DefaultPasswordGenerator returns a random password using the default policy.
+func DefaultPasswordGenerator() (string, error) {
+	return Generate(DefaultPolicy())
 }
 
+// GeneratePassword returns a random password using the requested composition.
 func GeneratePassword(length, uppercase, special, numeric int) (string, error) {
-	lowercase := length - uppercase - special - numeric
-	if lowercase < 0 {
-		return "", errors.New("character requirements exceed password length")
+	return Generate(Policy{
+		Length:    length,
+		Uppercase: uppercase,
+		Special:   special,
+		Numeric:   numeric,
+	})
+}
+
+// Generate returns a random password using policy.
+func Generate(policy Policy) (string, error) {
+	if err := policy.Validate(); err != nil {
+		return "", err
 	}
 
-	numericPart, err := PickCrypto(numeric, NumericPool)
+	numericPart, err := PickCrypto(policy.Numeric, NumericPool)
 	if err != nil {
 		return "", err
 	}
-	lowercasePart, err := PickCrypto(lowercase, AlphanumericPool)
+	lowercasePart, err := PickCrypto(policy.lowercase(), AlphanumericPool)
 	if err != nil {
 		return "", err
 	}
-	uppercasePart, err := PickCrypto(uppercase, strings.ToUpper(AlphanumericPool))
+	uppercasePart, err := PickCrypto(policy.Uppercase, strings.ToUpper(AlphanumericPool))
 	if err != nil {
 		return "", err
 	}
-	specialPart, err := PickCrypto(special, SpecialCharPool)
+	specialPart, err := PickCrypto(policy.Special, SpecialCharPool)
 	if err != nil {
 		return "", err
 	}
@@ -164,6 +171,9 @@ func GeneratePassword(length, uppercase, special, numeric int) (string, error) {
 }
 
 func cryptoInt(max int) (int, error) {
+	if max <= 0 {
+		return 0, errors.New("max must be positive")
+	}
 	result, err := cr.Int(cr.Reader, big.NewInt(int64(max)))
 	if err != nil {
 		return 0, err
