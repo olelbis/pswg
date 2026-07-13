@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.1.2] - 2026-07-13
+#### Added
+> Added release-note generation from `CHANGELOG.md` for tag-driven releases.
+#### Changed
+> Release notes now use curated changelog entries instead of GitHub's generated-notes heuristic.
+
+---
+
 ### [1.1.1] - 2026-07-13
 #### Added
 > Added local Markdown/HTML link checking to CI.
