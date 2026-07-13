@@ -32,7 +32,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 
 	flags := flag.NewFlagSet(exec, flag.ContinueOnError)
 	flags.SetOutput(stderr)
-	length := flags.Int("l", genutil.MinPasswordLength, "password length")
+	length := flags.Int("l", genutil.MinPasswordLength, fmt.Sprintf("password length (%d-%d)", genutil.MinPasswordLength, genutil.MaxPasswordLength))
 	uppercase := flags.Int("u", genutil.MinUpChar, "number of uppercase characters")
 	special := flags.Int("s", genutil.MinSpecChar, "number of special characters")
 	numeric := flags.Int("n", genutil.MinNumChar, "number of numeric characters")

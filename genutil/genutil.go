@@ -22,9 +22,13 @@ const (
 	Maxpwdlenght = MaxPasswordLength
 
 	NumericPool              = "1234567890"
-	AlphanumericPool         = "abcdefghijklmnopqrstuvwxyz"
+	LowercasePool            = "abcdefghijklmnopqrstuvwxyz"
 	SpecialCharPool          = "!&%$=?^+*][{}-_.:,;()><"
 	ShellSafeSpecialCharPool = "@_:,."
+
+	// Deprecated: use LowercasePool. The pool contains lowercase letters
+	// only, so the historical name was misleading.
+	AlphanumericPool = LowercasePool
 
 	MinUpChar    = 1
 	MinAlphaChar = 9
@@ -80,30 +84,38 @@ func (p Policy) Validate() error {
 }
 
 // Shuffle returns password with its runes shuffled using crypto/rand.
+//
+// If password contains at least one non-numeric rune, the result never
+// starts with a digit. This is enforced by rejection sampling (re-shuffling
+// until the constraint holds), so the output is uniformly distributed over
+// all permutations that satisfy the constraint. If every rune is numeric,
+// the constraint is skipped and a plain uniform shuffle is returned.
 func Shuffle(password string) (string, error) {
-	if utf8.RuneCountInString(password) < MinPasswordLength {
-		return "", errors.New("password is shorter than minimum length")
+	if password == "" {
+		return "", errors.New("password cannot be empty")
 	}
 	r := []rune(password)
 
-	for i := len(r) - 1; i > 0; i-- {
-		j, err := cryptoInt(i + 1)
-		if err != nil {
-			return "", err
+	hasNonNumeric := false
+	for _, c := range r {
+		if !unicode.IsNumber(c) {
+			hasNonNumeric = true
+			break
 		}
-		r[i], r[j] = r[j], r[i]
 	}
 
-	if unicode.IsNumber(r[0]) {
-		for i := 1; i < len(r); i++ {
-			if !unicode.IsNumber(r[i]) {
-				r[0], r[i] = r[i], r[0]
-				return string(r), nil
+	for {
+		for i := len(r) - 1; i > 0; i-- {
+			j, err := cryptoInt(i + 1)
+			if err != nil {
+				return "", err
 			}
+			r[i], r[j] = r[j], r[i]
+		}
+		if !hasNonNumeric || !unicode.IsNumber(r[0]) {
+			return string(r), nil
 		}
 	}
-
-	return string(r), nil
 }
 
 // Deprecated: use Shuffle.
@@ -180,11 +192,11 @@ func Generate(policy Policy) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	lowercasePart, err := PickRandom(policy.lowercase(), AlphanumericPool)
+	lowercasePart, err := PickRandom(policy.lowercase(), LowercasePool)
 	if err != nil {
 		return "", err
 	}
-	uppercasePart, err := PickRandom(policy.Uppercase, strings.ToUpper(AlphanumericPool))
+	uppercasePart, err := PickRandom(policy.Uppercase, strings.ToUpper(LowercasePool))
 	if err != nil {
 		return "", err
 	}
