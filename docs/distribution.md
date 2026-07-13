@@ -14,6 +14,7 @@ Each stable release includes:
 - `SHA256SUMS`
 - SPDX SBOM
 - GitHub artifact attestations
+- generated package-manager manifests archive
 
 ## Verify A Download
 
@@ -31,16 +32,16 @@ gh attestation verify pswg_VERSION_OS_ARCH.tar.gz -R olelbis/pswg
 
 ## Homebrew
 
-Use `packaging/homebrew/Formula/pswg.rb.in` as the source for a Homebrew tap formula. Replace the template values with the release version and the SHA-256 digest of the Darwin tarball.
+Download `pswg_VERSION_package_manifests.tar.gz` from the release and use `homebrew/Formula/pswg.rb` as the source for a Homebrew tap formula.
 
 ## Scoop
 
-Use `packaging/scoop/pswg.json.in` as the source for a Scoop bucket manifest. Replace the template values with the release version and Windows zip SHA-256 digests.
+Download `pswg_VERSION_package_manifests.tar.gz` from the release and use `scoop/pswg.json` as the source for a Scoop bucket manifest.
 
 ## AUR
 
-Use `packaging/aur/PKGBUILD.in` as the source for an AUR package. Replace the template values with the release version and Linux amd64/arm64 SHA-256 digests.
+Download `pswg_VERSION_package_manifests.tar.gz` from the release and use `aur/PKGBUILD` as the source for an AUR package.
 
 ## WinGet
 
-Use the templates in `packaging/winget/` as the source for a `microsoft/winget-pkgs` submission. Replace the template values with the release version, release date, and Windows zip SHA-256 digests from `SHA256SUMS`.
+Download `pswg_VERSION_package_manifests.tar.gz` from the release and use the files in `winget/` as the source for a `microsoft/winget-pkgs` submission.

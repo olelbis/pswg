@@ -10,6 +10,7 @@ const labels = [
   ["windows_amd64.zip", "Windows amd64"],
   ["linux_amd64.deb", "Debian amd64"],
   ["linux_amd64.rpm", "RPM amd64"],
+  ["package_manifests.tar.gz", "Package manifests"],
 ];
 
 function formatDate(value) {

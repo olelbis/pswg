@@ -1,6 +1,18 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.1.1] - 2026-07-13
+#### Added
+> Added local Markdown/HTML link checking to CI.
+>
+> Added release-time package manifest generation for Homebrew, Scoop, WinGet, and AUR based on real `SHA256SUMS` values.
+#### Changed
+> GitHub Releases now use generated release notes instead of a static note.
+>
+> Updated distribution documentation and the project page to reference generated package manifests.
+
+---
+
 ### [1.1.0] - 2026-07-13
 #### Changed
 > Fixed a distribution bias in `genutil.Shuffle`: the no-leading-digit constraint is now enforced by rejection sampling (re-shuffling) instead of a deterministic swap, so output is uniformly distributed over all valid permutations. All-numeric input is still returned as a plain uniform shuffle.

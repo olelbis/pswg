@@ -9,13 +9,13 @@ BUILD_DIR := build
 DIST_DIR := dist
 NFPM ?= nfpm
 
-.PHONY: build check checksums clean fmt packages release release-archives test vet
+.PHONY: build check checksums clean fmt link-check package-manifests packages release release-archives test vet
 
 build:
 	mkdir -p $(BUILD_DIR)
 	CGO_ENABLED=0 go build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o $(BUILD_DIR)/$(APP) .
 
-check: fmt test vet
+check: fmt test vet link-check
 
 fmt:
 	gofmt -w pswg.go pswg_test.go genutil/genutil.go genutil/genutil_test.go genutil/example_test.go
@@ -26,9 +26,16 @@ test:
 vet:
 	go vet ./...
 
-release: clean check release-archives packages checksums
+link-check:
+	python3 tools/check-links.py
+
+release: clean check release-archives packages checksums package-manifests
 
 checksums:
+	cd $(DIST_DIR) && find . -maxdepth 1 -type f ! -name SHA256SUMS -print | sed 's#^\./##' | sort | xargs shasum -a 256 > SHA256SUMS
+
+package-manifests:
+	python3 tools/generate-package-manifests.py --version $(VERSION) --dist $(DIST_DIR)
 	cd $(DIST_DIR) && find . -maxdepth 1 -type f ! -name SHA256SUMS -print | sed 's#^\./##' | sort | xargs shasum -a 256 > SHA256SUMS
 
 release-archives:

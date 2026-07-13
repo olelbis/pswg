@@ -66,4 +66,5 @@ jobs:
         run: |
           gh release create "${GITHUB_REF_NAME}" dist/* \
             --title "${GITHUB_REF_NAME}" \
-            --notes "Stable release."
+            --generate-notes \
+            --notes "See CHANGELOG.md for the curated release history and SECURITY.md for verification guidance."

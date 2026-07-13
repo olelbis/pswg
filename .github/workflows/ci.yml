@@ -31,5 +31,8 @@ jobs:
       - name: Vulnerability check
         run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
 
+      - name: Link check
+        run: python3 tools/check-links.py
+
       - name: Build
         run: CGO_ENABLED=0 go build -trimpath ./...
