@@ -255,14 +255,14 @@ make check
 Build a local binary:
 
 ```sh
-make build VERSION=v1.0.7
+make build VERSION=vX.Y.Z
 ./build/pswg -version
 ```
 
 Build release archives, Linux packages, and checksums:
 
 ```sh
-make release VERSION=v1.0.7
+make release VERSION=vX.Y.Z
 ```
 
 `make release` produces:
