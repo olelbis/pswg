@@ -7,7 +7,7 @@ import (
 	"unicode/utf8"
 )
 
-func TestShuffleRejectsShortPassword(t *testing.T) {
+func TestShuffleRejectsEmptyPassword(t *testing.T) {
 	if shuffled, err := Shuffle(""); err == nil {
 		t.Fatalf("Shuffle(\"\") = %q, nil; want error", shuffled)
 	}
@@ -182,5 +182,28 @@ func TestDeprecatedCompatibilityWrappers(t *testing.T) {
 	}
 	if !Ispwdtoolong(MaxPasswordLength + 1) {
 		t.Fatal("Ispwdtoolong compatibility wrapper = false; want true")
+	}
+}
+
+func TestShuffleNeverStartsWithDigitWhenPossible(t *testing.T) {
+	input := "1234567890ab"
+	for i := 0; i < 200; i++ {
+		shuffled, err := Shuffle(input)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if unicode.IsNumber([]rune(shuffled)[0]) {
+			t.Fatalf("Shuffle(%q) = %q; starts with a digit", input, shuffled)
+		}
+	}
+}
+
+func TestShuffleShortNonEmptyAllowed(t *testing.T) {
+	shuffled, err := Shuffle("ab1")
+	if err != nil {
+		t.Fatalf("Shuffle(\"ab1\") returned error: %v", err)
+	}
+	if utf8.RuneCountInString(shuffled) != 3 {
+		t.Fatalf("Shuffle(\"ab1\") length = %d; want 3", utf8.RuneCountInString(shuffled))
 	}
 }

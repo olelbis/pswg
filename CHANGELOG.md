@@ -1,6 +1,20 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### [1.1.0] - 2026-07-13
+#### Changed
+> Fixed a distribution bias in `genutil.Shuffle`: the no-leading-digit constraint is now enforced by rejection sampling (re-shuffling) instead of a deterministic swap, so output is uniformly distributed over all valid permutations. All-numeric input is still returned as a plain uniform shuffle.
+>
+> `genutil.Shuffle` (and the deprecated `Melee`) no longer rejects input shorter than the minimum password length; only empty input is rejected. Length policy is enforced by `Policy.Validate` as before, so CLI behavior is unchanged.
+>
+> Updated the `-l` flag help text to show the valid length range (12-128).
+#### Added
+> Added `genutil.LowercasePool` as the new name for the lowercase character pool.
+#### Deprecated
+> Deprecated `genutil.AlphanumericPool` in favor of `LowercasePool` (the pool contains lowercase letters only, so the old name was misleading). The alias is kept for compatibility.
+
+---
+
 ### [1.0.9] - 2026-05-18
 #### Added
 > Added a GitHub Pages project site with usage examples, release downloads, verification commands, and documentation links.
